@@ -18,20 +18,19 @@ const loop = (render, estrada, diretor, menu, width, height) => {
 
     render.clear(0, 0, width, height);
     render.save();
-    // render.drawImage(imagem, 0, 0, width, height);
+   
 
-    if (menu === 'corrida') {
+    if (menu.state === 'corrida') {
 
+        // estrada.drawRoad(ctx, width, pistas)
         estrada.render(render);
-
         diretorParam.render(render);
         render.restore();
-        
-
+        menu.update(estrada, diretorParam);
+        // menu.render(render)
     }
-
-    const { tamanhoPista } = pistas['brasil'];
-
+    // render(render) {}
+    // const { tamanhoPista } = pistas[pistaNome];
 
     requestAnimationFrame(() => loop(render, estrada, diretorParam, menu, width, height));
 }
@@ -44,8 +43,6 @@ const init = () => {
     const diretor = new Diretor()
     const estrada = new Estrada()
     const menu = new Menu(width, height)
-
-
     // const imagem = recurso.get('skyClear')
     loop(render, estrada, diretor, menu, width, height)
 }

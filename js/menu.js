@@ -7,12 +7,15 @@ class Menu {
         this.state = 'corrida';
     }
 
-    iniciarCorrida(estrada) {
+    iniciarCorrida(estrada, diretor) {
 
         const estradaParam = estrada;
 
+        let pistaNome = ''
+
         estradaParam.pistaNome = 'brasil'
         estradaParam.create()
+        diretor.create(estrada, pistaNome)
     }
 
     update(estrada, diretor) {
@@ -20,6 +23,8 @@ class Menu {
 
         this.iniciarCorrida(estrada, diretor);
     }
+
+    
 }
 
 export default Menu;

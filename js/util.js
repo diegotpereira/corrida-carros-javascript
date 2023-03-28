@@ -14,7 +14,20 @@ const pistas = {
 
         
         pistaNome: 'Interlagos',
-        tamanhoPista: 8632
+        tamanhoPista: 8632,
+        voltas: 71,
+        cores: {
+
+            estradaClara: '#424142',
+            estradaEscura: '#393839',
+            gramaClara: '#008800',
+            gramaEscura: '#006600',
+            guiaClara: '#ffffff',
+            guiaEscura: '#ff0000',
+            tunelClara: '#0000ff',
+            tunelEscura: '#00008b'
+
+        },
     }
 }
 

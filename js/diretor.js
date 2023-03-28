@@ -11,7 +11,7 @@ class Diretor {
 
     }
 
-    create(estrada, pistaNome, pistas) {
+    create(estrada, pistaNome) {
 
         // console.log(estrada);
         // console.log(pistaNome);
@@ -68,6 +68,9 @@ class Diretor {
         segmentoLinhaPrimeira.sprites.push(iniciarLinhaDireita);
         segmentoLinhaDez.sprites.push(iniciarLinhaEsquerda);
         segmentoLinhaDez.sprites.push(iniciarLinhaDireita);
+    }
+    render(render)  {
+        
     }
 }
 
