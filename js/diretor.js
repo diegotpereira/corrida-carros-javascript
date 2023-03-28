@@ -12,16 +12,8 @@ class Diretor {
 
         console.log(pistas);
 
-        const tamanhoPista = 0;
-
-        // 1. Acesse o objeto `pistas` e encontre o objeto correspondente à pista que você está usando.
-        const pistaAtual = pistas[estrada.pistaNome];
-
-        // 2. Defina manualmente o valor da propriedade `tamanhoPista` nesse objeto.
-        pistaAtual.tamanhoPista = 200;
-
         const segmentoLinhaPrimeira = estrada.getSegmentFromIndex(0);
-        const segmentoLinhaDez = estrada.getSegmentFromIndex(pistaAtual.tamanhoPista - 160);
+        const segmentoLinhaDez = estrada.getSegmentFromIndex();
 
         this.pistaNome = this.pistaNome;
         this.iniciarLuzes.offsetX= 0;

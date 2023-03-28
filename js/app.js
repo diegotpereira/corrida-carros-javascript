@@ -22,7 +22,7 @@ const loop = (render, estrada, diretor, width, height, imagem) => {
 
     estrada.render(render);
 
-    const { tamanhoPista } = pistas['brasil']
+    const { tamanhoPista } = 8632;
 
 
     requestAnimationFrame(() => loop(render, estrada, diretorParam, width, height, imagem));
