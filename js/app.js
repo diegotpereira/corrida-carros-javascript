@@ -1,7 +1,8 @@
-import { canvas, pistas, recurso } from "./util.js";
+import { canvas, recurso, pistas } from "./util.js";
 import Render from './render.js'
 import Diretor from "./diretor.js";
 import Estrada from "./estrada.js";
+import Menu from './menu.js'
 
 window.onload = () => {
 
@@ -11,21 +12,28 @@ window.onload = () => {
 
 }
 
-const loop = (render, estrada, diretor, width, height, imagem) => {
+const loop = (render, estrada, diretor, menu, width, height) => {
 
     const diretorParam = diretor;
 
     render.clear(0, 0, width, height);
     render.save();
-    render.drawImage(imagem, 0, 0, width, height);
-    render.restore();
+    // render.drawImage(imagem, 0, 0, width, height);
 
-    estrada.render(render);
+    if (menu === 'corrida') {
 
-    const { tamanhoPista } = 8632;
+        estrada.render(render);
+
+        diretorParam.render(render);
+        render.restore();
+        
+
+    }
+
+    const { tamanhoPista } = pistas['brasil'];
 
 
-    requestAnimationFrame(() => loop(render, estrada, diretorParam, width, height, imagem));
+    requestAnimationFrame(() => loop(render, estrada, diretorParam, menu, width, height));
 }
 
 const init = () => {
@@ -35,13 +43,11 @@ const init = () => {
 
     const diretor = new Diretor()
     const estrada = new Estrada()
+    const menu = new Menu(width, height)
 
-    let pistaNome = "Brasil";
 
-    diretor.create(estrada, pistaNome);
-
-    const imagem = recurso.get('skyClear')
-    loop(render, width, height, imagem)
+    // const imagem = recurso.get('skyClear')
+    loop(render, estrada, diretor, menu, width, height)
 }
 
 recurso

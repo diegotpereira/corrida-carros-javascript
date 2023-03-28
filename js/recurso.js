@@ -1,4 +1,4 @@
-class Recursos {
+class Recurso {
 
     // Um Map é criado e atribuído à propriedade privada #cache.
     #cache = new Map;
@@ -71,4 +71,4 @@ class Recursos {
     }
 }
 
-export default Recursos
+export default Recurso

@@ -1,29 +1,50 @@
-import { recurso, pistas } from "./util.js";
-
+import { canvas, pistas, recurso} from "./util.js";
+import Sprite from './sprite.js'
 
 
 class Diretor {
 
     constructor() {
 
+        this.iniciarLuzes = new Sprite();
+        this.pistaNome = '';
+
     }
 
-    create(estrada, estradaNome) {
+    create(estrada, pistaNome, pistas) {
 
-        console.log(pistas);
+        // console.log(estrada);
+        // console.log(pistaNome);
+        // console.log(pistas);
+        // console.log(tamanhoPista);
+
+        // const tamanhoPista = 8632;
+        // const estrada = new Estrada(tamanhoPista);
+
+        // // const tamanhoPista = 8632
+        // const tamanhoPista = pistas[pistaNome].tamanhoPista;
+
+        // if (pistas[pistaNome] && pistas[pistaNome].sprites) {
+        //     const { sprites } = pistas[pistaNome];
+        //     // use sprites here
+        // } else {
+        // console.log(`Error: cannot access sprites for ${pistaNome}`);
+        // }
+
+        
 
         const segmentoLinhaPrimeira = estrada.getSegmentFromIndex(0);
-        const segmentoLinhaDez = estrada.getSegmentFromIndex();
+        const segmentoLinhaDez = estrada.getSegmentFromIndex(pistas[estrada.pistaNome].tamanhoPista - 160);
 
-        this.pistaNome = this.pistaNome;
-        this.iniciarLuzes.offsetX= 0;
-        this.iniciarLuzes.offsetY = 2;
-        this.iniciarLuzes.scaleX = 27;
-        this.iniciarLuzes.scaleY = 27;
-        this.iniciarLuzes.spritesInX = 6;
-        this.iniciarLuzes.sheetPositionX = Math.ceil(this.animTempo / 500);
-        this.iniciarLuzes.imagem = recurso.get('startLights');
-        this.iniciarLuzes.nome = 'tsStartLights';
+        this.pistaNome = pistaNome;
+        // this.iniciarLuzes.offsetX= 0;
+        // this.iniciarLuzes.offsetY = 2;
+        // this.iniciarLuzes.scaleX = 27;
+        // this.iniciarLuzes.scaleY = 27;
+        // this.iniciarLuzes.spritesInX = 6;
+        // this.iniciarLuzes.sheetPositionX = Math.ceil(this.animTempo / 500);
+        // this.iniciarLuzes.imagem = recurso.get('startLights');
+        // this.iniciarLuzes.nome = 'tsStartLights';
 
         segmentoLinhaPrimeira.sprites.push(this.iniciarLuzes);
         segmentoLinhaDez.sprites.push(this.iniciarLuzes);
@@ -32,7 +53,7 @@ class Diretor {
         iniciarLinhaEsquerda.offsetX = -1.15;
         iniciarLinhaEsquerda.scaleX = 216;
         iniciarLinhaEsquerda.scaleY = 708;
-        iniciarLinhaEsquerda.imagen = recurso.get('startLightsBar');
+        iniciarLinhaEsquerda.imagem = recurso.get('startLightsBar');
         iniciarLinhaEsquerda.nome = 'tsStartLightsBar';
 
         const iniciarLinhaDireita = new Sprite();

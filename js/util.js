@@ -1,13 +1,19 @@
-import Recursos from "./recursos.js"
+import Recurso from "./recurso.js"
 
 const canvas = document.getElementById('canvas_principal')
 
-const recurso = new Recursos()
+
+var url = canvas.toDataURL();
+console.log(url);
+
+const recurso = new Recurso()
 
 const pistas = {
 
-    'brasil': {
+    brasil: {
 
+        
+        pistaNome: 'Interlagos',
         tamanhoPista: 8632
     }
 }
