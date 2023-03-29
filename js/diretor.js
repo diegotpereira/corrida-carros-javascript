@@ -8,6 +8,7 @@ class Diretor {
 
         this.iniciarLuzes = new Sprite();
         this.pistaNome = 'brasil';
+        this.pausado = false;
 
     }
 

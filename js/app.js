@@ -4,6 +4,7 @@ import Diretor from "./diretor.js";
 import Estrada from "./estrada.js";
 import Menu from './menu.js'
 import Camera from "./camera.js";
+import TelaDeFundo from "./teladefundo.js";
 
 window.onload = () => {
 
@@ -22,7 +23,7 @@ window.onload = () => {
  * @param {Number} height
  */
 
-const loop = (render, camera, estrada, diretor, menu, width, height) => {
+const loop = (render, camera, estrada, bg, diretor, menu, width, height) => {
 
     const diretorParam = diretor;
     const cameraParam = camera;
@@ -32,31 +33,16 @@ const loop = (render, camera, estrada, diretor, menu, width, height) => {
 
     if (menu.state === 'corrida') {
 
+        bg.update(cameraParam, estrada, diretorParam);
+        bg.render(render, cameraParam, estrada.width);
         estrada.render(render, cameraParam);
-        diretorParam.render(render);        
+        diretorParam.render(render);    
+        
+        
+        render.restore();
     }
 
-    
-
-    
-
-    // menu.update(estrada, diretorParam)
-    
-   
-
-    // if (menu.state === 'corrida') {
-
-    //     estrada.create()
-    //     estrada.render(render, cameraParam);
-    //     diretorParam.render(render);
-        
-    // }
-
-    render.restore();
-
-    // menu.update(estrada, diretorParam)
-
-    requestAnimationFrame(() => loop(render, camera, estrada, diretorParam, menu, width, height));
+    requestAnimationFrame(() => loop(render, camera, estrada, bg, diretorParam, menu, width, height));
 }
 
 const init = () => {
@@ -64,12 +50,17 @@ const init = () => {
     const { width, height } = canvas;
     const render = new Render(canvas.getContext('2d'))
     const camera = new Camera();
+    // console.log(camera);
     const diretor = new Diretor()
     const estrada = new Estrada()
+    const teladeFundo = new TelaDeFundo
     const menu = new Menu(width, height)
     menu.iniciarCorrida(estrada, diretor);
     // const imagem = recurso.get('skyClear')
-    loop(render, camera, estrada, diretor, menu, width, height)
+
+    teladeFundo.create();
+
+    loop(render, camera, estrada, teladeFundo, diretor, menu, width, height)
 }
 
 recurso

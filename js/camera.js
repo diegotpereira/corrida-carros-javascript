@@ -78,4 +78,6 @@ class Camera {
    }
 }
 
+// console.log(Camera);
+
 export default Camera;

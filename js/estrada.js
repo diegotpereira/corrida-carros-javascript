@@ -133,18 +133,21 @@ class Estrada {
 
   render(render, camera) {
 
-    // const cameraClass = camera;
-    // const { segmentosTamanho } = this;
-    // const baseSegmento = this.getSegmento(camera.cursor);
-    // const posInicial = baseSegmento.index;
 
-    const cameraClass = {cursor: 1683200, deltaZ:1200, h: 1500, x:2000, y: 1499.7854002165225, z: 1683200, distanciaDoPlanoProjetor: 0.577350269189626};
-    camera.x = 2000;
+    // const baseSegmento = this.getSegmento(camera.cursor);
+    
+    // const cameraClass = {cursor: 1683200, deltaZ:1200, h: 1500, x:2000, y: 1499.7854002165225, z: 1683200, distanciaDoPlanoProjetor: 0.577350269189626};
+    // camera.x = 2000;
+    const cameraClass = camera;
     const segmentosTamanho  = 8736;
+    // const { segmentosTamanho } = this;
     const baseSegmento = this.getSegmento(camera.cursor);
+    // const posInicial = baseSegmento.index;
     const posInicial = 8416;
     
+    
     cameraClass.y = camera.h + baseSegmento.pontos.mundo.y;
+    camera.x = 2000;
     let maxY = camera.tela.height;
     let anx = 0;
     let snx = 0;
@@ -152,15 +155,15 @@ class Estrada {
     for(let i = posInicial; i < posInicial + 600; i += 1) {
 
       let jogador = 1;
-      camera.x = 2000;
+      // camera.x = 2000;
 
         const atualSegmento = this.getSegmentoDoIndice(i);
-        camera.x = 2000;
+        // camera.x = 2000;
 
         cameraClass.z = camera.cursor - (i >= segmentosTamanho ? this.length : 0)
-        camera.x = 2000;
-        cameraClass.x = jogador.x * atualSegmento.pontos.mundo.w - snx;
-        camera.x = 2000;
+        // camera.x = 2000;
+        cameraClass.x = 1 * atualSegmento.pontos.mundo.w - snx;
+        // camera.x = 2000;
         
         atualSegmento.projetar(camera);
 
@@ -183,10 +186,10 @@ class Estrada {
             const pontoDeTelaAnterior = segmentosAnterior.pontos.tela;
             const { cores } = atualSegmento;
 
-            // if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
+            if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
                 
-            //     continue;
-            // }
+                continue;
+            }
 
             render.drawTrapezium(
 
