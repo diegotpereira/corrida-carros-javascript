@@ -66,4 +66,5 @@ const init = () => {
 recurso
     .add('skyClear', './img/tela_fundo/skyClear.png')
     .add('hill', './img/tela_fundo/hill.png')
+    .add('tree', './img/tela_fundo/tree.png')
     .load(() => requestAnimationFrame(() => init()));
