@@ -7,7 +7,7 @@ class Diretor {
     constructor() {
 
         this.iniciarLuzes = new Sprite();
-        this.pistaNome = '';
+        this.pistaNome = 'brasil';
 
     }
 
@@ -33,8 +33,8 @@ class Diretor {
 
         
 
-        const segmentoLinhaPrimeira = estrada.getSegmentFromIndex(0);
-        const segmentoLinhaDez = estrada.getSegmentFromIndex(pistas[estrada.pistaNome].tamanhoPista - 160);
+        const segmentoLinhaPrimeira = estrada.getSegmentoDoIndice(0);
+        const segmentoLinhaDez = estrada.getSegmentoDoIndice(pistas[estrada.pistaNome].tamanhoPista - 160);
 
         this.pistaNome = pistaNome;
         // this.iniciarLuzes.offsetX= 0;

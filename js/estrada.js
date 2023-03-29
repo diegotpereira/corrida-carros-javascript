@@ -1,4 +1,4 @@
-import SegmentoLinha from "./SegmentoLinha.js";
+import SegmentoLinha from "./segmentolinha.js";
 import { recurso, pistas } from "./util.js";
 
 class Estrada {
@@ -6,36 +6,17 @@ class Estrada {
    * @type {SegmentoLinha[]}
    */
   #segmentos = [];
-
-  /**
-   * @type {number}
-   */
   #segmentoTamanho = 200;
-
-  /**
-   * @type {number}
-   */
   visibilidadeSegmentos = 600;
-
-  /**
-   * @type {number}
-   */
   #k = 13;
-
-  /**
-   * @type {number}
-   */
   #width = 2000;
 
-  /**
-   * @type {string}
-   */
-  pistaNome = "";
 
   constructor(pistaNome) {
-    this.pistaNome = "brasil";
+    this.pistaNome = pistaNome;
     this.roadWidth = 400;
     this.roadHeight = 600;
+    this.posicao = 0;
   }
 
   get k() {
@@ -60,17 +41,16 @@ class Estrada {
 
   /**
    * @param {Number} cursor
-   * @returns {SegmentoLinha}
+   * @returns
    */
   getSegmento(cursor) {
-    return this.#segmentos[Math.floor(cursor / this.#segmentoTamanho) * this.segmentosTamanho];
+
+    return this.#segmentos[Math.floor(cursor / this.#segmentoTamanho) % this.segmentosTamanho];
+
   }
 
-  /**
-   * @param {number} index
-   * @returns {SegmentoLinha}
-   */
-  getSegmentFromIndex(index) {
+
+  getSegmentoDoIndice(index) {
     return this.#segmentos[index % this.segmentosTamanho];
   }
 
@@ -101,32 +81,88 @@ class Estrada {
         faixa: "#fff",
         tunel: cores.tunelClara,
       };
-      const segmento = new SegmentoLinha(this, i, k, coresMaisClaras, coresClaras, coresEscuras);
-      this.#segmentos.push(segmento);
+      const coresMaisEscuras = {
+
+        estrada: cores.estradaClara,
+        grama: cores.gramaEscura,
+        guia: cores.guiaEscura,
+        faixa: '#fff',
+        tunel: cores.tunelEscura
+        
+      };  
+      const segmentoLinha = new SegmentoLinha();
+
+      // console.log(segmentoLinha);
+      segmentoLinha.index = i;
+
+      if(Math.floor(i / k) % 4 === 0) segmentoLinha.cores = coresMaisClaras;
+      if(Math.floor(i / k) % 4 === 1) segmentoLinha.cores = coresMaisEscuras;
+      if(Math.floor(i / k) % 4 === 2) segmentoLinha.cores = coresClaras;
+      if(Math.floor(i / k) % 4 === 3) segmentoLinha.cores = coresEscuras;
+
+      if (i <= 11) {
+                
+        segmentoLinha.cores.estrada = '#fff' 
+        i % 4 === 0 || i % 4 === 1 ? segmentoLinha.cores.checkers = 'um' : segmentoLinha.cores.checkers = 'dois';
+      }
+
+      const { mundo } = segmentoLinha.pontos;
+      mundo.w = this.width;
+      mundo.z = (i + 1) * this.segmentoTamanho;
+      
+      this.#segmentos.push(segmentoLinha);
+
+       // adicionado curvas
+       const criarCurvas = (min, max, curva, guia) => {
+          if (i >= min && i <= max) {
+              
+              segmentoLinha.curva = curva;
+              segmentoLinha.guia = guia;
+          }
+        }
+
+        pistas[this.pistaNome].curvas.forEach((curva) => criarCurvas(curva.min, curva.max, curva.curvaInclinacao, curva.guia));
     }
   }
 
-  render(render) {
+  /**
+   *
+   * @param {Render} render
+   * @param {Camera} camera
+   */
+
+  render(render, camera) {
 
     // const cameraClass = camera;
-    const { segmentosTamanho } = this;
+    // const { segmentosTamanho } = this;
     // const baseSegmento = this.getSegmento(camera.cursor);
-    const baseSegmento = 10;
-    const posInicial = baseSegmento.index;
+    // const posInicial = baseSegmento.index;
 
-    // cameraClass.y = camera.h + baseSegmento.pontos.mundo.y;
-    // let maxY = camera.tela.height;
+    const cameraClass = {cursor: 1683200, deltaZ:1200, h: 1500, x:2000, y: 1499.7854002165225, z: 1683200, distanciaDoPlanoProjetor: 0.577350269189626};
+    camera.x = 2000;
+    const segmentosTamanho  = 8736;
+    const baseSegmento = this.getSegmento(camera.cursor);
+    const posInicial = 8416;
+    
+    cameraClass.y = camera.h + baseSegmento.pontos.mundo.y;
+    let maxY = camera.tela.height;
     let anx = 0;
     let snx = 0;
 
-    for(let i = posInicial; i < posInicial + this.visibidadeSegmentos; i += 1) {
+    for(let i = posInicial; i < posInicial + 600; i += 1) {
+
+      let jogador = 1;
+      camera.x = 2000;
 
         const atualSegmento = this.getSegmentoDoIndice(i);
+        camera.x = 2000;
 
-        // cameraClass.z = camera.cursor - (i >= segmentosTamanho ? this.length : 0)
-        // cameraClass.x = jogador.x * atualSegmento.pontos.mundo.w - snx;
+        cameraClass.z = camera.cursor - (i >= segmentosTamanho ? this.length : 0)
+        camera.x = 2000;
+        cameraClass.x = jogador.x * atualSegmento.pontos.mundo.w - snx;
+        camera.x = 2000;
         
-        // atualSegmento.projetar(camera);
+        atualSegmento.projetar(camera);
 
         anx += atualSegmento.curva;
         snx += anx;
@@ -134,12 +170,12 @@ class Estrada {
         const atualPontoTela = atualSegmento.pontos.tela;
         atualSegmento.clip = maxY;
 
-        // if (atualPontoTela.y >= maxY 
+        if (atualPontoTela.y >= maxY 
             
-        //     || camera.deltaZ <= camera.distanciaDoPlanoProjetor) {
+            || camera.deltaZ <= camera.distanciaDoPlanoProjetor) {
             
-        //     continue;
-        // }
+            continue;
+        }
 
         if (i > 0) {
             
@@ -147,10 +183,10 @@ class Estrada {
             const pontoDeTelaAnterior = segmentosAnterior.pontos.tela;
             const { cores } = atualSegmento;
 
-            if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
+            // if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
                 
-                continue;
-            }
+            //     continue;
+            // }
 
             render.drawTrapezium(
 
@@ -172,8 +208,8 @@ class Estrada {
             render.drawPolygon(
                 cores.grama,
                 pontoDeTelaAnterior.x + pontoDeTelaAnterior.w * 1, pontoDeTelaAnterior.y,
-                // camera.tela.width, pontoDeTelaAnterior.y,
-                // camera.tela.width, atualPontoTela.y,
+                camera.tela.width, pontoDeTelaAnterior.y,
+                camera.tela.width, atualPontoTela.y,
                 atualPontoTela.x + atualPontoTela.w, atualPontoTela.y,
             );
 
@@ -282,7 +318,7 @@ class Estrada {
         maxY = atualPontoTela.y;
     }
 
-    for(let index = (this.visibidadeSegmentos + posInicial) - 1; index >= posInicial; index -= 1) {
+    for(let index = (600 + posInicial) - 1; index >= posInicial; index -= 1) {
 
         this.getSegmentoDoIndice(index)
             // .drawSprite(render, camera, jogador)

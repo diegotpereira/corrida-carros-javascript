@@ -23,18 +23,18 @@ class Render {
     }
 
     drawTrapezium(x1, y1, w1, x2, y2, w2, color = 'green') {
-        
+
         this.drawPolygon(color, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);
     }
 
-    drawPolygon(cor, ...coords) {
+    drawPolygon(color, ...coords) {
 
         if (coords.length > 1) {
             
             const { ctx } = this;
 
             ctx.save();
-            ctx.fillStyle = cor;
+            ctx.fillStyle = color;
             ctx.beginPath();
             ctx.moveTo(coords[0], coords[1]);
 
