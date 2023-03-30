@@ -42,7 +42,7 @@ const loop = (render, camera, estrada, bg, diretor, menu, width, height) => {
         render.restore();
     }
 
-    requestAnimationFrame(() => loop(render, camera, estrada, bg, diretorParam, menu, width, height));
+    requestAnimationFrame(() => loop(render, cameraParam, estrada, bg, diretorParam, menu, width, height));
 }
 
 const init = () => {
@@ -55,16 +55,29 @@ const init = () => {
     const estrada = new Estrada()
     const teladeFundo = new TelaDeFundo
     const menu = new Menu(width, height)
-    menu.iniciarCorrida(estrada, diretor);
+    
     // const imagem = recurso.get('skyClear')
 
     teladeFundo.create();
+
+    menu.iniciarCorrida(estrada, diretor);
 
     loop(render, camera, estrada, teladeFundo, diretor, menu, width, height)
 }
 
 recurso
     .add('skyClear', './img/tela_fundo/skyClear.png')
+    .add('skyDark', './img/tela_fundo/skyDark.png')
     .add('hill', './img/tela_fundo/hill.png')
     .add('tree', './img/tela_fundo/tree.png')
+    .add('arrowKeys', './img/outro/arrowKeys.png')
+    .add('enterKey', './img/outro/enterKey.png')
+    .add('billboardSega', './img/outro/billboard04.png')
+    .add('startLights', './img/outro/startLights.png')
+    .add('startLightsBar', './img/outro/startLightsBar.png')
+    .add('leftSignal', './img/outro/leftSignal.png')
+    .add('rightSignal', './img/outro/rightSignal.png')
+    .add('opponents', './img/outro/opponents.png')
+    .add('playerLeft', './img/jogador/playerLeft.png')
+    .add('playerRight', './img/jogador/playerRight.png')
     .load(() => requestAnimationFrame(() => init()));

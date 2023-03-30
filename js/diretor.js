@@ -6,6 +6,8 @@ class Diretor {
 
     constructor() {
 
+        this.animTempo = 0;
+
         this.iniciarLuzes = new Sprite();
         this.pistaNome = 'brasil';
         this.pausado = false;
@@ -38,14 +40,14 @@ class Diretor {
         const segmentoLinhaDez = estrada.getSegmentoDoIndice(pistas[estrada.pistaNome].tamanhoPista - 160);
 
         this.pistaNome = pistaNome;
-        // this.iniciarLuzes.offsetX= 0;
-        // this.iniciarLuzes.offsetY = 2;
-        // this.iniciarLuzes.scaleX = 27;
-        // this.iniciarLuzes.scaleY = 27;
-        // this.iniciarLuzes.spritesInX = 6;
-        // this.iniciarLuzes.sheetPositionX = Math.ceil(this.animTempo / 500);
-        // this.iniciarLuzes.imagem = recurso.get('startLights');
-        // this.iniciarLuzes.nome = 'tsStartLights';
+        this.iniciarLuzes.offsetX= 0;
+        this.iniciarLuzes.offsetY = 2;
+        this.iniciarLuzes.scaleX = 27;
+        this.iniciarLuzes.scaleY = 27;
+        this.iniciarLuzes.spritesInX = 6;
+        this.iniciarLuzes.sheetPositionX = Math.ceil(this.animTempo / 500);
+        this.iniciarLuzes.imagem = recurso.get('startLights');
+        this.iniciarLuzes.nome = 'tsStartLights';
 
         segmentoLinhaPrimeira.sprites.push(this.iniciarLuzes);
         segmentoLinhaDez.sprites.push(this.iniciarLuzes);

@@ -1,3 +1,4 @@
+import Diretor from "./diretor.js";
 import Sprite from "./sprite.js";
 import { recurso } from "./util.js";
 
@@ -18,6 +19,7 @@ class TelaDeFundo {
         this.camada2 = new Sprite();
         this.camada3 = new Sprite();
         this.jogador = 1;
+        this.pausado = false;
     }
     create() {
 
@@ -30,44 +32,48 @@ class TelaDeFundo {
         this.camada3.nome = 'bgTree';
     }
 
-    update(jogador, camera, estrada, diretor) {
 
-        // if (diretor.pausado) {
+
+    update(jogador, camera, estrada) {
+
+        const diretor = new Diretor();
+
+        if (diretor.pausado) {
             
-        //     const aumentar = (iniciar, incrementar, max) => {
+            const aumentar = (iniciar, incrementar, max) => {
 
-        //         let resultado = iniciar + incrementar;
+                let resultado = iniciar + incrementar;
 
-        //         while(resultado >= max) {
+                while(resultado >= max) {
 
-        //             resultado -= max;
-        //         }
+                    resultado -= max;
+                }
 
-        //         while (resultado < 0 ) {
+                while (resultado < 0 ) {
                     
-        //             resultado += max;
-        //         }
+                    resultado += max;
+                }
 
-        //         return resultado;
-        //     }
+                return resultado;
+            }
 
-        //     const segmento = estrada.getSegmento(camera.cursor);
-        //     const velocidadePercentual = jogador.correnteEnergia / jogador.maxVelocidade;
+            const segmento = estrada.getSegmento(camera.cursor);
+            const velocidadePercentual = jogador.correnteEnergia / jogador.maxVelocidade;
 
-        //     this.camada1Offset = aumentar(
+            this.camada1Offset = aumentar(
 
-        //         this.camada1Offset, this.camada1Velocidade * segmento.curva * velocidadePercentual * -1, 2,
-        //     );
-        //     this.camada2Offset = aumentar(
+                this.camada1Offset, this.camada1Velocidade * segmento.curva * velocidadePercentual * -1, 2,
+            );
+            this.camada2Offset = aumentar(
 
-        //         this.camada2Offset, this.camada2Velocidade * segmento.curva * velocidadePercentual * -1, 2,
-        //     );
+                this.camada2Offset, this.camada2Velocidade * segmento.curva * velocidadePercentual * -1, 2,
+            );
 
-        //     this.camada3Offset = aumentar(
+            this.camada3Offset = aumentar(
 
-        //         this.camada3Offset, this.camada3Velocidade * segmento.curva * velocidadePercentual * -1, 2
-        //     )
-        // }
+                this.camada3Offset, this.camada3Velocidade * segmento.curva * velocidadePercentual * -1, 2
+            )
+        }
 
     }
 
