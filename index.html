@@ -9,14 +9,25 @@
   </head>
   <body translate="no">
     <div class="container">
-      <ul>
-        <button></button>
-        <li></li>
-        <button>
-          <img src="" alt="">
+      <ul id="info">
+        <button id="pausarBtn" class="interfaceBotao pause hidden" name="p" title="p"></button>
+        <li id="fps"></li>
+        <button id="telaCheiaBtn" class="interfaceBotao" title="tela">
+            <img class="imgTelaCheia" src="img/outro/fullscreen.png" alt="">
         </button>
-        <span></span>
+        <span id="mutar" class="mutar hidden"></span>
       </ul>
+      <div id="controleToques">
+          <div class="controleEsquerdo">
+              <button class="controleBotoes" type="button" name="arrowup">U</button>
+              <button class="controleBotoes" type="button" name="arrowdown">D</button>
+          </div>
+          <div class="controleDireito">
+              <button class="controleBotoes" type="button" name="enter">OK</button>
+              <button class="controleBotoes" type="button" name="arrowleft">L</button>
+              <button class="controleBotoes" type="button" name="arrowright">R</button>
+          </div>
+      </div>
         
       <canvas id="canvas_principal" width="640" height="360"></canvas>
 
