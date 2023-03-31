@@ -1,4 +1,5 @@
 import SegmentoLinha from "./segmentolinha.js";
+import Sprite from "./sprite.js";
 import { recurso, pistas } from "./util.js";
 
 class Estrada {
@@ -14,9 +15,6 @@ class Estrada {
 
   constructor(pistaNome) {
     this.pistaNome = pistaNome;
-    this.roadWidth = 400;
-    this.roadHeight = 600;
-    this.posicao = 0;
   }
 
   get k() {
@@ -122,6 +120,20 @@ class Estrada {
         }
 
         pistas[this.pistaNome].curvas.forEach((curva) => criarCurvas(curva.min, curva.max, curva.curvaInclinacao, curva.guia));
+
+        const { curva: curvaForca, guia} = this.getSegmentoDoIndice(i);
+
+        if (i % (k * 2) === 0 && Math.abs(curvaForca) > 1 && guia) {
+
+          const curvaSinal = new Sprite();
+          
+          curvaSinal.offsetX = curvaForca > 0 ? -1.5 : 1.5;
+          curvaSinal.scaleX = 72;
+          curvaSinal.scaleY = 72;
+          curvaSinal.imagem = recurso.get(curvaForca > 0 ? 'leftSignal' : 'rightSinal');
+
+          segmentoLinha.sprites.push(curvaSinal);
+        }
     }
   }
 
@@ -134,25 +146,27 @@ class Estrada {
   render(render, camera) {
 
 
+    
+    const cameraClass = camera;
+    const {segmentosTamanho}  = this;
+    const baseSegmento = this.getSegmento(camera.cursor);
+    
+    const posInicial = baseSegmento.index;
+
+
     // const baseSegmento = this.getSegmento(camera.cursor);
     
     // const cameraClass = {cursor: 1683200, deltaZ:1200, h: 1500, x:2000, y: 1499.7854002165225, z: 1683200, distanciaDoPlanoProjetor: 0.577350269189626};
     // camera.x = 2000;
-    const cameraClass = camera;
-    const segmentosTamanho  = 8736;
-    // const { segmentosTamanho } = this;
-    const baseSegmento = this.getSegmento(camera.cursor);
     // const posInicial = baseSegmento.index;
-    const posInicial = 8416;
     
     
     cameraClass.y = camera.h + baseSegmento.pontos.mundo.y;
-    camera.x = 2000;
     let maxY = camera.tela.height;
     let anx = 0;
     let snx = 0;
 
-    for(let i = posInicial; i < posInicial + 600; i += 1) {
+    for(let i = posInicial; i < posInicial + this.visibilidadeSegmentos; i += 1) {
 
       let jogador = 1;
       // camera.x = 2000;
@@ -173,12 +187,12 @@ class Estrada {
         const atualPontoTela = atualSegmento.pontos.tela;
         atualSegmento.clip = maxY;
 
-        if (atualPontoTela.y >= maxY 
+        // if (atualPontoTela.y >= maxY 
             
-            || camera.deltaZ <= camera.distanciaDoPlanoProjetor) {
+        //     || camera.deltaZ <= camera.distanciaDoPlanoProjetor) {
             
-            continue;
-        }
+        //     continue;
+        // }
 
         if (i > 0) {
             
@@ -186,10 +200,10 @@ class Estrada {
             const pontoDeTelaAnterior = segmentosAnterior.pontos.tela;
             const { cores } = atualSegmento;
 
-            if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
+            // if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
                 
-                continue;
-            }
+            //     continue;
+            // }
 
             render.drawTrapezium(
 
@@ -328,30 +342,30 @@ class Estrada {
             // .drawTunnel(render, camera, jogador);
     }
   }
-  drawRoad(ctx, width, lanes) {
-    let dx = 0;
-    let segmentW = this.roadWidth / lanes;
+  // drawRoad(ctx, width, lanes) {
+  //   let dx = 0;
+  //   let segmentW = this.roadWidth / lanes;
 
-    ctx.save();
+  //   ctx.save();
 
-    // Desenha a grama
-    ctx.fillStyle = COLORS.GRASS;
-    ctx.fillRect(0, 0, this.roadWidth, this.roadHeight);
+  //   // Desenha a grama
+  //   ctx.fillStyle = COLORS.GRASS;
+  //   ctx.fillRect(0, 0, this.roadWidth, this.roadHeight);
 
-    // Desenha as faixas laterais
-    ctx.fillStyle = COLORS.ROAD.LIGHT;
-    ctx.fillRect(dx, 0, segmentW * 0.25, this.roadHeight);
-    ctx.fillStyle = COLORS.ROAD.DARK;
-    ctx.fillRect(dx + segmentW * 0.25, 0, segmentW * 0.5, this.roadHeight);
-    ctx.fillStyle = COLORS.ROAD.LIGHT;
-    ctx.fillRect(dx + segmentW * 0.75, 0, segmentW * 0.25, this.roadHeight);
+  //   // Desenha as faixas laterais
+  //   ctx.fillStyle = COLORS.ROAD.LIGHT;
+  //   ctx.fillRect(dx, 0, segmentW * 0.25, this.roadHeight);
+  //   ctx.fillStyle = COLORS.ROAD.DARK;
+  //   ctx.fillRect(dx + segmentW * 0.25, 0, segmentW * 0.5, this.roadHeight);
+  //   ctx.fillStyle = COLORS.ROAD.LIGHT;
+  //   ctx.fillRect(dx + segmentW * 0.75, 0, segmentW * 0.25, this.roadHeight);
 
-    // Desenha a faixa central
-    ctx.fillStyle = COLORS.ROAD.WHITE;
-    ctx.fillRect(dx + segmentW * 0.48, 0, segmentW * 0.04, this.roadHeight);
+  //   // Desenha a faixa central
+  //   ctx.fillStyle = COLORS.ROAD.WHITE;
+  //   ctx.fillRect(dx + segmentW * 0.48, 0, segmentW * 0.04, this.roadHeight);
 
-    ctx.restore();
-  }
+  //   ctx.restore();
+  // }
 }
 
 export default Estrada;

@@ -3,7 +3,7 @@ class Sprite {
      * @type {HTMLImageElement}
      */
     constructor() {
-      this.image = {};
+      this.imagem = {};
       this.offsetX = 0;
       this.offsetY = 0;
       this.sheetPositionX = 0;
@@ -17,11 +17,11 @@ class Sprite {
     }
   
     get width() {
-      return this.image.width;
+      return this.imagem.width;
     }
   
     get height() {
-      return this.image.height;
+      return this.imagem.height;
     }
   }
   

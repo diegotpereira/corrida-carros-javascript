@@ -63,7 +63,7 @@ class SegmentoLinha {
         const escala = this.escala = camera.distanciaDoPlanoProjetor / camera.deltaZ;
 
         tela.xNaoArredondado = (1 + (mundo.x - camera.x) * escala) * meioTela.x;
-        tela.yNaoArredondado = (1 + (mundo.y - camera.y) * escala) * meioTela.y;
+        tela.yNaoArredondado = (1 - (mundo.y - camera.y) * escala) * meioTela.y;
         tela.wNaoArredondado = mundo.w  * escala * camera.tela.width;
         tela.x = Math.round(tela.xNaoArredondado);
         tela.y = Math.round(tela.yNaoArredondado);

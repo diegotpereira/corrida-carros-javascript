@@ -23,11 +23,13 @@ class Menu {
 
     
 
-    // update(estrada, diretor) {
+    update(estrada, diretor) {
+
+        
 
 
-    //     this.iniciarCorrida(estrada, diretor);
-    // }    
+        this.iniciarCorrida(estrada, diretor);
+    }    
 
     
 }

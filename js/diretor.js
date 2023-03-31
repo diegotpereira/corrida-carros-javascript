@@ -16,26 +16,6 @@ class Diretor {
 
     create(estrada, pistaNome) {
 
-        // console.log(estrada);
-        // console.log(pistaNome);
-        // console.log(pistas);
-        // console.log(tamanhoPista);
-
-        // const tamanhoPista = 8632;
-        // const estrada = new Estrada(tamanhoPista);
-
-        // // const tamanhoPista = 8632
-        // const tamanhoPista = pistas[pistaNome].tamanhoPista;
-
-        // if (pistas[pistaNome] && pistas[pistaNome].sprites) {
-        //     const { sprites } = pistas[pistaNome];
-        //     // use sprites here
-        // } else {
-        // console.log(`Error: cannot access sprites for ${pistaNome}`);
-        // }
-
-        
-
         const segmentoLinhaPrimeira = estrada.getSegmentoDoIndice(0);
         const segmentoLinhaDez = estrada.getSegmentoDoIndice(pistas[estrada.pistaNome].tamanhoPista - 160);
 

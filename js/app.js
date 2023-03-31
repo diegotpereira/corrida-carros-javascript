@@ -28,6 +28,8 @@ const loop = (render, camera, estrada, bg, diretor, menu, width, height) => {
     const diretorParam = diretor;
     const cameraParam = camera;
 
+    console.log(estrada);
+
     render.clear(0, 0, width, height);
     render.save();
 
@@ -58,9 +60,11 @@ const init = () => {
     
     // const imagem = recurso.get('skyClear')
 
-    teladeFundo.create();
-
     menu.iniciarCorrida(estrada, diretor);
+
+    // teladeFundo.create();
+
+    
 
     loop(render, camera, estrada, teladeFundo, diretor, menu, width, height)
 }
