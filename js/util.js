@@ -1,12 +1,13 @@
 
 import Recurso from "./recurso.js";
+import LidarComEntrada from "./LidarComEntrada.js";
 
 const canvas = document.querySelector('#canvas_principal');
 
 const campoDeVisao = (120 / 180) * Math.PI;
 const teta = campoDeVisao * 0.5;
 
-// const lidarComEntrada = new LidarComEntrada();
+const lidarComEntrada = new LidarComEntrada();
 const recurso = new Recurso();
 
 const formatarTempo = (dt) => {
@@ -289,5 +290,5 @@ const atualizarDeslocamentoCarroOffset = (carro, jogador, diretor, opoArr) => {
 
 export {
 
-    recurso, canvas, posicaoInicial, pistas, campoDeVisao, teta, formatarTempo, pilotos, atualizarDeslocamentoCarroOffset
+    recurso, canvas, posicaoInicial, pistas, lidarComEntrada, campoDeVisao, teta, formatarTempo, pilotos, atualizarDeslocamentoCarroOffset
 }

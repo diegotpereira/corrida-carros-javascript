@@ -8,11 +8,11 @@ class Sprite {
       this.offsetY = 0;
       this.sheetPositionX = 0;
       this.sheetPositionY = 0;
-      this.scaleX = 1;
-      this.scaleY = 1;
-      this.spritesInX = 1;
-      this.spritesInY = 1;
-      this.name = 'sprite';
+      this.escalaX = 1;
+      this.escalaY = 1;
+      this.spritesEmX = 1;
+      this.spritesEmY = 1;
+      this.nome = 'sprite';
       this.runningPower = { speed: 0, mult: 0 };
     }
   

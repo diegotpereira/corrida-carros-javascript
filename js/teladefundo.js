@@ -18,9 +18,8 @@ class TelaDeFundo {
         this.camada1 = new Sprite();
         this.camada2 = new Sprite();
         this.camada3 = new Sprite();
-        this.jogador = 1;
-        this.pausado = false;
     }
+    
     create() {
 
         this.camada1.imagem = recurso.get('skyClear');
@@ -32,11 +31,7 @@ class TelaDeFundo {
         this.camada3.nome = 'bgTree';
     }
 
-
-
-    update(jogador, camera, estrada) {
-
-        const diretor = new Diretor();
+    update(jogador, camera, estrada, diretor) {
 
         if (diretor.pausado) {
             
@@ -100,9 +95,9 @@ class TelaDeFundo {
             // const posicaoW = isNaN(this[`${item}Offset`]) ? 0 : camera.tela.meioTela.x * 2 * this[`${item}Offset`];
             const corretaLargura = jogador.width / 64;
             
-            // render.drawSprite(
-            //     this[item], camera, jogador, estradaLargura, escala * 0.05 * corretaLargura,
-            //     posicaoW, this[item].height, clip);
+            render.drawSprite(
+                this[item], camera, jogador, estradaLargura, escala * 0.05 * corretaLargura,
+                posicaoW, this[item].height, clip);
 
             if (Math.abs(this[`${item}Offset`]) > 1) {
                 
@@ -111,7 +106,7 @@ class TelaDeFundo {
                     escala * 0.05 * corretaLargura, posicaoW - this[item].width, this[item].height, clip
                 )
             }
-        })
+        });
     }
 }
 

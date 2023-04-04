@@ -128,10 +128,10 @@ class Estrada {
           const curvaSinal = new Sprite();
           
           curvaSinal.offsetX = curvaForca > 0 ? -1.5 : 1.5;
-          curvaSinal.scaleX = 72;
-          curvaSinal.scaleY = 72;
+          curvaSinal.escalaX = 72;
+          curvaSinal.escalaY = 72;
           curvaSinal.imagem = recurso.get(curvaForca > 0 ? 'leftSignal' : 'rightSinal');
-
+          curvaSinal.nome = 'tsCurveSignal';
           segmentoLinha.sprites.push(curvaSinal);
         }
     }
@@ -141,9 +141,10 @@ class Estrada {
    *
    * @param {Render} render
    * @param {Camera} camera
+   * @param {Jogador} jogador
    */
 
-  render(render, camera) {
+  render(render, camera, jogador) {
 
 
     
@@ -168,7 +169,7 @@ class Estrada {
 
     for(let i = posInicial; i < posInicial + this.visibilidadeSegmentos; i += 1) {
 
-      let jogador = 1;
+      // let jogador = 1;
       // camera.x = 2000;
 
         const atualSegmento = this.getSegmentoDoIndice(i);
@@ -176,7 +177,7 @@ class Estrada {
 
         cameraClass.z = camera.cursor - (i >= segmentosTamanho ? this.length : 0)
         // camera.x = 2000;
-        cameraClass.x = 1 * atualSegmento.pontos.mundo.w - snx;
+        cameraClass.x = jogador.x * atualSegmento.pontos.mundo.w - snx;
         // camera.x = 2000;
         
         atualSegmento.projetar(camera);
@@ -187,12 +188,12 @@ class Estrada {
         const atualPontoTela = atualSegmento.pontos.tela;
         atualSegmento.clip = maxY;
 
-        // if (atualPontoTela.y >= maxY 
+        if (atualPontoTela.y >= maxY 
             
-        //     || camera.deltaZ <= camera.distanciaDoPlanoProjetor) {
+            || camera.deltaZ <= camera.distanciaDoPlanoProjetor) {
             
-        //     continue;
-        // }
+            continue;
+        }
 
         if (i > 0) {
             
@@ -200,10 +201,10 @@ class Estrada {
             const pontoDeTelaAnterior = segmentosAnterior.pontos.tela;
             const { cores } = atualSegmento;
 
-            // if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
+            if (atualPontoTela.y >= pontoDeTelaAnterior.y) {
                 
-            //     continue;
-            // }
+                continue;
+            }
 
             render.drawTrapezium(
 
@@ -338,7 +339,7 @@ class Estrada {
     for(let index = (600 + posInicial) - 1; index >= posInicial; index -= 1) {
 
         this.getSegmentoDoIndice(index)
-            // .drawSprite(render, camera, jogador)
+            .drawSprite(render, camera, jogador)
             // .drawTunnel(render, camera, jogador);
     }
   }

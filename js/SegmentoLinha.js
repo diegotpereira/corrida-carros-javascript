@@ -71,6 +71,44 @@ class SegmentoLinha {
         
 
     }
+
+    /**
+     * 
+     * @param {Render} render 
+     * @param {Camera} camera 
+     * @param {Jogador} jogador 
+     */
+     drawSprite(render, camera, jogador) {
+
+        const sprites = this.sprites;
+
+        for (let index = sprites.length - 1; index >= 0; index -= 1) {
+            
+            const sprite = sprites[index];
+            const escala = this.escala;
+            const { tela, mundo } = this.pontos;
+            const estradaLargura = mundo.w;
+            const destX = tela.xNaoArredondado + tela.wNaoArredondado * sprite.offsetX;
+            const destY = tela.yNaoArredondado;
+            const destYUp = (1 - (mundo.y - camera.y + 1550) * escala) * 180;
+            
+            // if (sprite.nome.includes('op') && (escala * 10000 < 5 && escala * 10000 > 1.2)) {
+                
+            //     render.drawText('#FFFAF4', `${sprite.nome.replace('op', '')}`, destX, destYUp, escala * 10000, 'OutriderCond', 'center', 'black', true);
+            // }
+
+            render.drawSprite(
+
+                sprite, camera,
+                jogador, estradaLargura,
+                escala, destX,
+                destY, this.clip,
+                sprite.spritesEmX, sprite.spritesEmY
+            )
+        }
+
+        return this;
+    }   
    
 }
 
