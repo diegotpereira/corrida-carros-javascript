@@ -3,17 +3,37 @@
   <head>
     <meta charset="UTF-8">
     <title>Fake Racer</title>
-    <style>
-      canvas {
-        border: 1px solid #000;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-        <canvas id="canvas_principal" width="640" height="360"></canvas>
 
-        <script type="module" src="js/app.js"></script>
+    <link rel="stylesheet" href="css/estilo.css">
+  
+  </head>
+  <body translate="no">
+    <div class="container">
+      <ul id="info">
+        <button id="pausarBtn" class="interfaceBotao pause hidden" name="p" title="p"></button>
+        <li id="fps"></li>
+        <button id="telaCheiaBtn" class="interfaceBotao" title="tela">
+            <img class="imgTelaCheia" src="img/outro/fullscreen.png" alt="">
+        </button>
+        <span id="mutar" class="mutar hidden"></span>
+      </ul>
+      <div id="controleToques">
+          <div class="controleEsquerdo">
+              <button class="controleBotoes" type="button" name="arrowup">U</button>
+              <button class="controleBotoes" type="button" name="arrowdown">D</button>
+          </div>
+          <div class="controleDireito">
+              <button class="controleBotoes" type="button" name="enter">OK</button>
+              <button class="controleBotoes" type="button" name="arrowleft">L</button>
+              <button class="controleBotoes" type="button" name="arrowright">R</button>
+          </div>
+      </div>
+        
+      <canvas id="canvas_principal" width="640" height="360"></canvas>
+
+      <script type="module" src="js/app.js"></script>
+        
     </div>
+    
   </body>
 </html>
