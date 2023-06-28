@@ -1,10 +1,11 @@
 import { recurso, pistas } from "./util.js";
-
-
+import Sprite from './sprite.js'
 
 class Diretor {
 
     constructor() {
+
+        this.iniciarLuzes = new Sprite();
 
     }
 
@@ -16,7 +17,7 @@ class Diretor {
         const segmentoLinhaDez = estrada.getSegmentFromIndex();
 
         this.pistaNome = this.pistaNome;
-        this.iniciarLuzes.offsetX= 0;
+        this.iniciarLuzes.offsetX = 0;
         this.iniciarLuzes.offsetY = 2;
         this.iniciarLuzes.scaleX = 27;
         this.iniciarLuzes.scaleY = 27;

@@ -1,50 +1,40 @@
-import { canvas, pistas, recurso } from "./util.js";
-import Render from './render.js'
-import Diretor from "./diretor.js";
-import Estrada from "./estrada.js";
+import { canvas, recurso } from './util.js';
+import Render from './render.js';
+import TelaFundo from './telafundo.js';
 
 window.onload = () => {
+  const containerCanvas = document.querySelector('.container');
+  containerCanvas.height = Math.min(
+    window.innerHeight,
+    0.5625 * window.innerWidth
+  );
+};
 
-    const containerCanvas = document.querySelector('.container')
-
-    containerCanvas.height = Math.min(window.innerHeight, (0.5625 * window.innerWidth));
-
-}
-
-const loop = (render, estrada, diretor, width, height, imagem) => {
-
-    const diretorParam = diretor;
-
-    render.clear(0, 0, width, height);
-    render.save();
-    render.drawImage(imagem, 0, 0, width, height);
-    render.restore();
-
-    estrada.render(render);
-
-    const { tamanhoPista } = 8632;
-
-
-    requestAnimationFrame(() => loop(render, estrada, diretorParam, width, height, imagem));
-}
+const loop = (render, telaFundo, width, height) => {
+  render.clear(0, 0, width, height);
+  render.save();
+  telaFundo.update();
+  telaFundo.render(render);
+  render.restore();
+  requestAnimationFrame(() => loop(render, telaFundo, width, height));
+};
 
 const init = () => {
+  const { width, height } = canvas;
+  const render = new Render(canvas.getContext('2d'));
+  const telaFundo = new TelaFundo();
 
-    const { width, height } = canvas;
-    const render = new Render(canvas.getContext('2d'))
-
-    const diretor = new Diretor()
-    const estrada = new Estrada()
-
-    let pistaNome = "Brasil";
-
-    diretor.create(estrada, pistaNome);
-
-    const imagem = recurso.get('skyClear')
-    loop(render, width, height, imagem)
-}
+  recurso.carregarImagem(() => {
+    const imagem = recurso.get('skyClear');
+    telaFundo.create(imagem);
+    loop(render, telaFundo, width, height);
+  });
+};
 
 recurso
-    .add('skyClear', './img/tela_fundo/skyClear.png')
-    .add('hill', './img/tela_fundo/hill.png')
-    .load(() => requestAnimationFrame(() => init()));
+  .add('skyClear', './img/tela_fundo/skyClear.png')
+  .add('skyDark', './img/tela_fundo/skyDark.png')
+  .add('hill', './img/tela_fundo/hill.png')
+  .add('tree', './img/tela_fundo/tree.png');
+
+requestAnimationFrame(() => init());

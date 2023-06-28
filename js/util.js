@@ -1,18 +1,11 @@
-import Recursos from "./recursos.js"
+import Recurso from "./recurso.js"
 
-const canvas = document.getElementById('canvas_principal')
+const canvas = document.querySelector('#canvas_principal')
 
-const recurso = new Recursos()
-
-const pistas = {
-
-    'brasil': {
-
-        tamanhoPista: 8632
-    }
-}
+const recurso = new Recurso()
 
 export {
 
-    recurso, canvas, pistas
+    recurso, 
+    canvas
 }

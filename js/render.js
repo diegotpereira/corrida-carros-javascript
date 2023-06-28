@@ -22,11 +22,20 @@ class Render {
     this.ctx.restore();
     }
 
-    drawImage(imagem, x, y, width, height) {
 
-        this.ctx.drawImage(imagem, x, y, width, height)
+   /**
+   *
+   * @param {Sprite} sprite
+   */
+    drawSprite(sprite) {
+
+        this.ctx.drawImage(
+            sprite.imagem,
+            0,
+            0
+        );
     }
-
+    
 }
 
 export default Render

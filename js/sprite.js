@@ -1,9 +1,11 @@
+
+
 class Sprite {
     /**
-     * @type {HTMLImageElement}
+     * @type {HTMLImagemElement}
      */
     constructor() {
-      this.image = {};
+      this.imagem = {};
       this.offsetX = 0;
       this.offsetY = 0;
       this.sheetPositionX = 0;
@@ -12,16 +14,16 @@ class Sprite {
       this.scaleY = 1;
       this.spritesInX = 1;
       this.spritesInY = 1;
-      this.name = 'sprite';
+      this.nome = 'sprite';
       this.runningPower = { speed: 0, mult: 0 };
     }
   
     get width() {
-      return this.image.width;
+      return this.imagem.width;
     }
   
     get height() {
-      return this.image.height;
+      return this.imagem.height;
     }
   }
   
