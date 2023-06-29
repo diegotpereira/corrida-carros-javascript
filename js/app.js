@@ -24,17 +24,24 @@ const init = () => {
   const render = new Render(canvas.getContext('2d'));
   const telaFundo = new TelaFundo();
 
-  recurso.carregarImagem(() => {
-    const imagem = recurso.get('skyClear');
-    telaFundo.create(imagem);
-    loop(render, telaFundo, width, height);
-  });
+  // recurso.carregarImagem(() => {
+  //   const imagem = recurso.get('hill');
+  //   telaFundo.create(imagem);
+  //   loop(render, telaFundo, width, height);
+  // });
+
+  // const imagem1 = recurso.get('skyClear');
+  // const imagem2 = recurso.get('hill');
+  // const imagem3 = recurso.get('tree');
+
+  telaFundo.create();
+
+  loop(render, telaFundo, width, height);
 };
 
 recurso
   .add('skyClear', './img/tela_fundo/skyClear.png')
   .add('skyDark', './img/tela_fundo/skyDark.png')
   .add('hill', './img/tela_fundo/hill.png')
-  .add('tree', './img/tela_fundo/tree.png');
-
-requestAnimationFrame(() => init());
+  .add('tree', './img/tela_fundo/tree.png')
+  .carregarImagem(() => requestAnimationFrame(() => init()));

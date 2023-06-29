@@ -27,6 +27,7 @@ class Recurso {
           this.cache.set(res.name, image);
           this.carregarImagem(callback);
         };
+        
         image.src = res.url;
       } else {
         if (callback) {
