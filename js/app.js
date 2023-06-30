@@ -1,6 +1,9 @@
 import { canvas, recurso } from './util.js';
 import Render from './render.js';
 import TelaFundo from './telafundo.js';
+import Estrada from './estrada.js';
+import Menu from './menu.js'
+import Camera from './camera.js';
 
 window.onload = () => {
   const containerCanvas = document.querySelector('.container');
@@ -10,33 +13,62 @@ window.onload = () => {
   );
 };
 
-const loop = (render, telaFundo, width, height) => {
+/**
+ * 
+ * @param {Render} render 
+ * @param {Camera} camera 
+ * @param {Estrada} estrada 
+ * @param {Number} width 
+ * @param {Number} height 
+ */
+
+const loop = (render, camera, estrada, telaFundo, menu, width, height) => {
+
+  const cameraParam = camera;
+  // const menuParam = menu
+
   render.clear(0, 0, width, height);
   render.save();
-  telaFundo.update();
-  telaFundo.render(render);
-  render.restore();
-  requestAnimationFrame(() => loop(render, telaFundo, width, height));
+
+  // const menuStatus = 'titulo';
+
+  if (menu.estado === 'corrida') {
+
+    telaFundo.update(estrada, cameraParam);
+    telaFundo.render(render, cameraParam, estrada.width);
+    
+    estrada.render(render, cameraParam);
+
+    
+
+    render.restore();
+  }
+
+  if (menu.estado === 'titulo') {
+
+    menu.update(estrada);
+
+    menu.render(render)
+
+  }
+
+  
+    
+  requestAnimationFrame(() => loop(render, camera, estrada, telaFundo, menu, width, height));
 };
 
 const init = () => {
   const { width, height } = canvas;
   const render = new Render(canvas.getContext('2d'));
+  const camera = new Camera()
+  const estrada = new Estrada();
   const telaFundo = new TelaFundo();
-
-  // recurso.carregarImagem(() => {
-  //   const imagem = recurso.get('hill');
-  //   telaFundo.create(imagem);
-  //   loop(render, telaFundo, width, height);
-  // });
-
-  // const imagem1 = recurso.get('skyClear');
-  // const imagem2 = recurso.get('hill');
-  // const imagem3 = recurso.get('tree');
+  const menu = new Menu(width, height);
 
   telaFundo.create();
+  
 
-  loop(render, telaFundo, width, height);
+  loop(render, camera, estrada, telaFundo, menu, width, height);
 };
 
 recurso
