@@ -1,17 +1,16 @@
-import { handleInput, pistas } from "./util.js";
+import { handleInput, pistas, posicaoInicial } from "./util.js";
 
 class Menu {
 
     constructor(width, height) {
 
         this.exibirMenu = 0;
-
         this.height = height;
         this.width = width;
         this.estado = 'titulo';
         this.menuX = 5;
         this.menuY = 0;
-
+        this.atualizarTempo = 6 / 60;
         this.menuFrase = {
 
             0: 'Circuito: ',
@@ -19,8 +18,8 @@ class Menu {
             2: 'Dificuldade: ',
             3: 'Música: ',
             4: 'Volume da música: ',
-            5: 'Iniciar '
-        }
+            5: 'Iniciar ',
+        };
 
         this.menu = {
 
@@ -30,7 +29,7 @@ class Menu {
             3: ['não', 'sim'],
             4: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             5: ['corrida'],
-        }
+        };
 
         this.selecionarOpcao = {
 
@@ -40,26 +39,32 @@ class Menu {
             3: 'não',
             4: '1',
             5: 'corrida'
-        }
+        };
 
         this.menuTitulo = {pos: 0, direcao: 1}
     }
 
-    iniciarCorrida(estrada) {
+    iniciarCorrida(jogador, estrada) {
 
         const estradaParam = estrada;
 
-        // estradaParam.pistaNome = this.selecionarOpcao[0];
+        const zero = 0;
+
+        posicaoInicial(pistas[this.selecionarOpcao[zero]].tamanhoPista);
+
+        estradaParam.pistaNome = this.selecionarOpcao[0];
 
         estradaParam.create();
     }
 
-    update(estrada) {
+    update(jogador, estrada) {
 
         if (handleInput.mapPress.enter && !this.exibirMenu) {
             
+            this.selecionarOpcao[3] = 'sim';
             this.exibirMenu = 1;
             this.menuTitulo.pos = 0;
+            handleInput.mapPress.enter = false;
         }
 
         if (this.exibirMenu) {
@@ -75,9 +80,12 @@ class Menu {
 
             if (handleInput.mapPress.enter && this.menuX === ultimaOpcaoMenu) {
 
+                const botaoPausar = document.querySelector('#botaoPausar');
                 // const fps = document.querySelector('#fps');
                 
-                this.iniciarCorrida(estrada);
+                botaoPausar.classList.toggle('hidden');
+
+                this.iniciarCorrida(jogador, estrada);
                 this.estado = 'corrida';
                 handleInput.mapPress.enter = false;
                 // fps.firstElementChild.classList.remove('hidden');
@@ -119,6 +127,7 @@ class Menu {
             render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false)
             render.desenharTexto('#FFFAF4', textoBaixo, 320, 180 - 45, 1.6);
 
+            console.log('1', this.menuFrase[this.menuX], '2', this.menu[this.menuX][this.menuY]);
 
             const frase = `${this.menuFrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
             render.desenharTexto('#050B1A', frase, 320, 180 + (this.menuTitulo.pos / 4), 1.6);

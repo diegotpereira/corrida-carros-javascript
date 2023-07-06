@@ -1,9 +1,11 @@
-import { canvas, recurso } from './util.js';
+import { canvas, pistas, posicaoInicial, recurso } from './util.js';
 import Render from './render.js';
 import TelaFundo from './telafundo.js';
 import Estrada from './estrada.js';
 import Menu from './menu.js'
 import Camera from './camera.js';
+import Jogador from './jogador.js';
+import Diretor from './diretor.js';
 
 window.onload = () => {
   const containerCanvas = document.querySelector('.container');
@@ -17,50 +19,73 @@ window.onload = () => {
  * 
  * @param {Render} render 
  * @param {Camera} camera 
+ * @param {Jogador} jogador
  * @param {Estrada} estrada 
  * @param {Number} width 
  * @param {Number} height 
  */
 
-const loop = (render, camera, estrada, telaFundo, menu, width, height) => {
+const loop = (render, camera, jogador, estrada, telaFundo, diretor, menu, width, height) => {
 
+  const diretorParam = diretor
   const cameraParam = camera;
-  // const menuParam = menu
+  const jogadorParam = jogador;
 
   render.clear(0, 0, width, height);
   render.save();
 
-  // const menuStatus = 'titulo';
-
   if (menu.estado === 'corrida') {
 
-    telaFundo.update(estrada, cameraParam);
-    telaFundo.render(render, cameraParam, estrada.width);
-    
-    estrada.render(render, cameraParam);
+    const tempoAgora = window.performance.now();
+    const tempoDecorrido = (tempoAgora - diretorParam.tempoReal) / 1000;
 
-    
+    diretorParam.tempoReal = tempoAgora;
+    diretorParam.tempoDesdeAUltimaTrocaFrame += tempoDecorrido;
+
+    telaFundo.update(jogadorParam, cameraParam, estrada, diretorParam);
+    telaFundo.renderizarTela(render, cameraParam, jogadorParam, estrada.width);    
+    estrada.render(render, cameraParam, jogadorParam);
 
     render.restore();
   }
 
   if (menu.estado === 'titulo') {
 
-    menu.update(estrada);
+    const { selecionarOpcao } = menu;
+    const tempoAgora = window.performance.now();
+    const tempoDecorrido = (tempoAgora - diretorParam.tempoReal) / 1000;
+
+    diretorParam.tempoReal = tempoAgora;
+    diretorParam.tempoDesdeAUltimaTrocaFrame += tempoDecorrido;
+
+    if (diretorParam.tempoDesdeAUltimaTrocaFrame > menu.atualizarTempo) {
+
+      menu.update(jogadorParam, estrada); 
+      diretorParam.tempoDesdeAUltimaTrocaFrame = 0;
+      
+    }
+    
 
     menu.render(render)
+
+    const { tamanhoPista } = pistas[selecionarOpcao[0]];
+    const qualifPos = Number(selecionarOpcao[1]) + 1;
+    cameraParam.cursor = posicaoInicial(tamanhoPista, qualifPos);
+    jogadorParam.x = qualifPos % 2 ? -1 : 1;
 
   }
 
   
     
-  requestAnimationFrame(() => loop(render, camera, estrada, telaFundo, menu, width, height));
+  requestAnimationFrame(() => loop(render, cameraParam, jogadorParam, estrada, telaFundo, diretorParam, menu, width, height));
 };
 
 const init = () => {
   const { width, height } = canvas;
   const render = new Render(canvas.getContext('2d'));
   const camera = new Camera()
+  const diretor = new Diretor();
+  const jogador = new Jogador();
   const estrada = new Estrada();
   const telaFundo = new TelaFundo();
   const menu = new Menu(width, height);
@@ -68,7 +93,7 @@ const init = () => {
   telaFundo.create();
   
 
-  loop(render, camera, estrada, telaFundo, menu, width, height);
+  loop(render, camera, jogador, estrada, telaFundo, diretor, menu, width, height);
 };
 
 recurso

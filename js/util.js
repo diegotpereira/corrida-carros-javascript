@@ -3,8 +3,12 @@ import Recurso from "./recurso.js"
 
 const canvas = document.querySelector('#canvas_principal')
 
+const campoVisao = (120 / 180) * Math.PI;
+const theta = campoVisao * 0.5;
 const handleInput = new HandleInput();
 const recurso = new Recurso()
+
+const posicaoInicial = (tamanhoPista, posicao) => (tamanhoPista - (posicao * 16)) * 200;
 
 const pistas = {
 
@@ -36,5 +40,7 @@ export {
     recurso, 
     canvas,
     pistas,
-    handleInput
+    handleInput,
+    theta,
+    posicaoInicial
 }

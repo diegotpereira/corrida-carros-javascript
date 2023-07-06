@@ -1,8 +1,8 @@
-import { canvas } from "./util.js";
+import { canvas, theta } from "./util.js";
 
 
 class Camera {
-
+    
     x = 0;
     y = 1500;
     z = 0;
@@ -10,7 +10,11 @@ class Camera {
     cursor = 0;
     deltaZ = 0;
 
-    // #distanciaDoPlanoProjetor = 1 / Math.tan(theta)
+    #distanciaDoPlanoProjetor = 1 / Math.tan(theta);
+
+    get distanciaDoPlanoProjetor() {
+        return this.#distanciaDoPlanoProjetor;
+      }
 
     tela = new class {
         meioTela = new class {

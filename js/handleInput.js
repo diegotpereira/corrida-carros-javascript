@@ -2,7 +2,7 @@ class HandleInput {
     constructor() {
       const fullScreenBtn = document.getElementById('fullScreenBtn');
       fullScreenBtn.addEventListener('click', (event) => HandleInput.toggleFullScreen(event));
-      const pauseButton = document.querySelector('#pauseBtn');
+      const pauseButton = document.querySelector('#botaoPausar');
       pauseButton.addEventListener('click', (event) => this.pause(event));
       const moveButtons = document.querySelectorAll('button');
       window.addEventListener('keydown', (event) => this.handler(event));
@@ -21,7 +21,7 @@ class HandleInput {
     }
   
     pause(e) {
-      const pauseBtn = document.querySelector('#pauseBtn');
+      const pauseBtn = document.querySelector('#botaoPausar');
       pauseBtn.classList.toggle('off');
       if (!window.navigator.maxTouchPoints && e.type !== 'keypress') {
         this.mapPress.p = !this.mapPress.p;

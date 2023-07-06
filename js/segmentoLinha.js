@@ -1,3 +1,4 @@
+import Jogador from "./jogador.js";
 
 
 class SegmentoLinha {
@@ -69,8 +70,9 @@ class SegmentoLinha {
     /**
      * @param {Camera} camera
      * @param {Render} render
+     * @param {Jogador} jogador
      */
-    drawSprite(render, camera) {
+    drawSprite(render, camera, jogador) {
 
         const sprites = this.sprites;
 
@@ -80,19 +82,25 @@ class SegmentoLinha {
             const escala = this.escala;
             const { tela, mundo } = this.pontos;
             const estradaLargura = mundo.w;
-            const destX = tela.xUnrounded + tela.wUnrounded * sprite.offSetX;
+            const destX = tela.xUnrounded + tela.wUnrounded * sprite.offsetX;
             const destY = tela.yUnrounded;
             const destYUp = (1 - (mundo.y - camera.y + 1550) * escala) * 180;
+
+            if (sprite.nome.includes('op') && (escala * 10000 < 5 && escala * 10000 > 1.2)) {
+                
+                render.desenharTexto('#FFFAF4', `${sprite.nome.replace('op', '')}`, destX, destYUp,
+                escala * 10000, 'OutriderCond', 'center', 'black', true)
+            }
 
 
             render.drawSprite(
                 sprite, camera,
-                estradaLargura,
+                jogador, estradaLargura,
                 escala, destX,
-                destY, this.clip
-            )
-
-
+                destY, this.clip,
+                sprite.spritesInX, 
+                sprite.spritesInY
+            );
         }
 
         return this;
