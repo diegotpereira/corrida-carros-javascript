@@ -1,11 +1,11 @@
-* {
+/* * {
 
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     padding: 0;
     margin: 0;
-}
+} */
 
 /* @font-face {
 
@@ -33,7 +33,7 @@
     src: url(/fontes/computo.ttf);
 } */
 
-html,
+/* html,
 body {
     background: #000000;
     font-family: Joystix, Verdana, Geneva, sans-serif;
@@ -41,7 +41,7 @@ body {
     position: relative;
     overflow: hidden;
     width: 100vw;
-}
+} */
 
 .container {
 
@@ -55,7 +55,7 @@ canvas {
     background: #FAF6F2;
 }
 
-#info, #controleToques {
+/* #info, #controleToques {
 
     color: white;
     text-shadow: 1px 1px 2px black;
@@ -103,9 +103,9 @@ canvas {
     margin: 0 0.3em 0.5em;
     background: rgba(0, 0, 0, 0.05);
     color: #c0c0c0;
-}
+} */
 
-.mutar {
+/* .mutar {
 
     background: url(../img/outro/mute.png);
     background-size: cover;
@@ -114,9 +114,9 @@ canvas {
     height: 3vw;
     width: 3vw;
 
-}
+} */
 
-#controleToques {
+/* #controleToques {
 
     bottom: 0em;
     display: flex;
@@ -130,9 +130,9 @@ canvas {
 }
 .filter {
     filter: brightness(75%);
-}
+} */
 
-@media (hover: hover) and (pointer: fine) {
+/* @media (hover: hover) and (pointer: fine) {
 
     #controleToques {
 
@@ -143,9 +143,9 @@ canvas {
 
         height: min(100vh, 56.25vw);
     }
-}
+} */
 
-.interfaceBotao {
+/* .interfaceBotao {
 
     background: transparent;
     border: 0;
@@ -156,4 +156,4 @@ canvas {
 .imgTelaCheia {
     max-height: 96%;
     max-width: 96%;
-}
+} */

@@ -37,10 +37,10 @@ const pistas = {
 
 export {
 
+    handleInput,
     recurso, 
     canvas,
-    pistas,
-    handleInput,
     theta,
-    posicaoInicial
+    posicaoInicial,
+    pistas
 }

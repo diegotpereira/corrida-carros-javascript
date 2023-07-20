@@ -44,7 +44,7 @@ class Menu {
         this.menuTitulo = {pos: 0, direcao: 1}
     }
 
-    iniciarCorrida(jogador, estrada) {
+    iniciarCorrida(jogador, estrada, diretor) {
 
         const estradaParam = estrada;
 
@@ -55,9 +55,12 @@ class Menu {
         estradaParam.pistaNome = this.selecionarOpcao[0];
 
         estradaParam.create();
+
+        diretor.create(estrada, this.selecionarOpcao[0]);
+        // diretor.create();
     }
 
-    update(jogador, estrada) {
+    update(jogador, estrada, diretor) {
 
         if (handleInput.mapPress.enter && !this.exibirMenu) {
             
@@ -85,7 +88,7 @@ class Menu {
                 
                 botaoPausar.classList.toggle('hidden');
 
-                this.iniciarCorrida(jogador, estrada);
+                this.iniciarCorrida(jogador, estrada, diretor);
                 this.estado = 'corrida';
                 handleInput.mapPress.enter = false;
                 // fps.firstElementChild.classList.remove('hidden');

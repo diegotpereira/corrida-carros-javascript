@@ -22,13 +22,13 @@ class Recurso {
     carregarImagem(callback) {
       if (this.#list.length > 0) {
         const res = this.#list.pop();
-        const image = new Image();
-        image.onload = () => {
-          this.cache.set(res.name, image);
+        const imagem = new Image();
+        imagem.onload = () => {
+          this.cache.set(res.name, imagem);
           this.carregarImagem(callback);
         };
         
-        image.src = res.url;
+        imagem.src = res.url;
       } else {
         if (callback) {
           callback(this);

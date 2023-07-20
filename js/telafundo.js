@@ -1,5 +1,3 @@
-import Camera from './camera.js';
-import Jogador from './jogador.js';
 import Sprite from './sprite.js';
 import { recurso } from './util.js';
 
@@ -11,9 +9,9 @@ class TelaFundo {
     this.camadaVelocidade1 = 0.001;
     this.camadaVelocidade2 = 0.002;
     this.camadaVelocidade3 = 0.003;
-    this.deslocamentoCamada1 = 0;
-    this.deslocamentoCamada2 = 0;
-    this.deslocamentoCamada3 = 0;
+    this.camada1deslocamento = 0;
+    this.camada2deslocamento = 0;
+    this.camada3deslocamento = 0;
     this.camada1 = new Sprite();
     this.camada2 = new Sprite();
     this.camada3 = new Sprite();
@@ -30,39 +28,39 @@ class TelaFundo {
 
   update(jogador, camera, estrada, diretor) {
 
-    if (diretor.pausado) {
+    // if (diretor.pausado) {
       
-      const aumentar = (iniciar, incrementar, max) => {
+    //   const aumentar = (iniciar, incrementar, max) => {
 
-        let resultado = iniciar + incrementar;
+    //     let resultado = iniciar + incrementar;
 
-        while(resultado >= max) {
+    //     while(resultado >= max) {
 
-          resultado -= max;
-        }
+    //       resultado -= max;
+    //     }
 
-        while (resultado < 0) {
+    //     while (resultado < 0) {
           
-          resultado += max;
-        }
+    //       resultado += max;
+    //     }
 
-        return resultado;
-      }
+    //     return resultado;
+    //   }
 
-      const segmento = estrada.getSegmento(camera.cursor);
+    //   const segmento = estrada.getSegmento(camera.cursor);
 
-      this.deslocamentoCamada1 = aumentar(
-        this.deslocamentoCamada1, this.camadaVelocidade1 * segmento.curva * velocidadePercentual * -1, 2,
-      );
+    //   this.deslocamentoCamada1 = aumentar(
+    //     this.deslocamentoCamada1, this.camadaVelocidade1 * segmento.curva * velocidadePercentual * -1, 2,
+    //   );
 
-      this.deslocamentoCamada2 = aumentar(
-        this.deslocamentoCamada2, this.camadaVelocidade2 * segmento.curva * velocidadePercentual * -1, 2,
-      );
+    //   this.deslocamentoCamada2 = aumentar(
+    //     this.deslocamentoCamada2, this.camadaVelocidade2 * segmento.curva * velocidadePercentual * -1, 2,
+    //   );
 
-      this.deslocamentoCamada3 = aumentar(
-        this.deslocamentoCamada3, this.camadaVelocidade3 * segmento.curva * velocidadePercentual * -1, 2,
-      );
-    }
+    //   this.deslocamentoCamada3 = aumentar(
+    //     this.deslocamentoCamada3, this.camadaVelocidade3 * segmento.curva * velocidadePercentual * -1, 2,
+    //   );
+    // }
   }
 
   /**
@@ -70,7 +68,7 @@ class TelaFundo {
    * @param {Camera} camera
    * @param {Number} estradaLargura
    */
-  renderizarTela(render, camera, jogador, estradaLargura) {
+  render(render, camera, jogador, estradaLargura) {
     const clip = 0;
     const escala = 1 / camera.h;
     const arrCamadas = ['camada1', 'camada2', 'camada3'];
@@ -80,8 +78,8 @@ class TelaFundo {
       
       this[item].escalaX = 9;
       this[item].escalaY = 9;
-      // const posicaoW = camera.tela.meioTela.x * 2 * this[`${item}Offset`];
-      const posicaoW = 0;
+      const posicaoW = camera.tela.meioTela.x * 2 * this[`${item}deslocamento`];
+      
       const corretaLargura = jogador.width / 64;
 
       render.drawSprite(

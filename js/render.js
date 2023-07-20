@@ -24,28 +24,28 @@ class Render {
 
     drawTrapezium(x1, y1, w1, x2, y2, w2, cor = 'green') {
 
-        this.drawPolygon(cor, x1- w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);
+        // this.drawPolygon(cor, x1- w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);
     }
 
     drawPolygon(cor, ...coords) {
 
-        if (coords.length > 1) {
+        // if (coords.length > 1) {
             
-            const { ctx } = this;
-            ctx.save();
-            ctx.fillStyle = cor;
-            ctx.beginPath();
-            ctx.moveTo(coords[0], coords[1]);
+        //     const { ctx } = this;
+        //     ctx.save();
+        //     ctx.fillStyle = cor;
+        //     ctx.beginPath();
+        //     ctx.moveTo(coords[0], coords[1]);
 
-            for(let i = 2; i < coords.length; i += 2) {
+        //     for(let i = 2; i < coords.length; i += 2) {
 
-                ctx.lineTo(coords[i], coords[(i + 1) % coords.length]);
-            }
+        //         ctx.lineTo(coords[i], coords[(i + 1) % coords.length]);
+        //     }
 
-            ctx.closePath();
-            ctx.fill();
-            ctx.restore();
-        }
+        //     ctx.closePath();
+        //     ctx.fill();
+        //     ctx.restore();
+        // }
     }
 
     desenharTexto(cor, texto, telaX = 300, telaY = 200, fontSize = '2',
@@ -93,8 +93,10 @@ class Render {
             posicaoFolhaX, posicaoFolhaY, escalaX, escalaY
         } = sprite;
 
-        const destWidth = (spriteHeight * escala * meioTela.x) *
-            (((estradaLargura * escalaX) / (jogador.width ?? 64)) * fator);
+        // const destWidth = (spriteHeight * escala * meioTela.x) *
+        //     (((estradaLargura * escalaX) / (jogador.width ?? 64)) * fator);
+
+        const destWidth = 1280;
 
         const destHeight = (spriteHeight * escala * meioTela.x) *
             (((estradaLargura * escalaY) / (jogador.width ?? 64)) * fator);

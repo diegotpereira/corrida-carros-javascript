@@ -47,13 +47,24 @@ class Camera {
      * @param { Estrada } estrada
      */
 
-    update(estrada) {
+    update(estrada, diretor) {
 
         const length = estrada.length
 
         if (this.cursor >= length) {
 
+            diretor.volta += 1;
+
+            if (diretor.temposTotaisVolta.length >= 2) {
+
+                const ultimaVolta = diretor.temposTotaisVolta[diretor.volta - 1];
+
+                diretor.ultimaVolta.push(ultimaVolta);
+                
+            }
+
             this.cursor -= length;
+            
         } else if (this.cursor <= 0) {
             
             this.cursor += length;

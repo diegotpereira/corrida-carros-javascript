@@ -25,7 +25,16 @@ window.onload = () => {
  * @param {Number} height 
  */
 
-const loop = (render, camera, jogador, estrada, telaFundo, diretor, menu, width, height) => {
+const loop = (
+  render, 
+  camera, 
+  jogador, 
+  estrada, 
+  tf, 
+  diretor, 
+  menu, 
+  width, 
+  height ) => {
 
   const diretorParam = diretor
   const cameraParam = camera;
@@ -42,8 +51,8 @@ const loop = (render, camera, jogador, estrada, telaFundo, diretor, menu, width,
     diretorParam.tempoReal = tempoAgora;
     diretorParam.tempoDesdeAUltimaTrocaFrame += tempoDecorrido;
 
-    telaFundo.update(jogadorParam, cameraParam, estrada, diretorParam);
-    telaFundo.renderizarTela(render, cameraParam, jogadorParam, estrada.width);    
+    tf.update(jogadorParam, cameraParam, estrada, diretorParam);
+    tf.render(render, cameraParam, jogadorParam, estrada.width);     
     estrada.render(render, cameraParam, jogadorParam);
 
     render.restore();
@@ -60,7 +69,7 @@ const loop = (render, camera, jogador, estrada, telaFundo, diretor, menu, width,
 
     if (diretorParam.tempoDesdeAUltimaTrocaFrame > menu.atualizarTempo) {
 
-      menu.update(jogadorParam, estrada); 
+      menu.update(jogadorParam, estrada, diretorParam); 
       diretorParam.tempoDesdeAUltimaTrocaFrame = 0;
       
     }
@@ -77,7 +86,17 @@ const loop = (render, camera, jogador, estrada, telaFundo, diretor, menu, width,
 
   
     
-  requestAnimationFrame(() => loop(render, cameraParam, jogadorParam, estrada, telaFundo, diretorParam, menu, width, height));
+  requestAnimationFrame(() => loop(
+    render, 
+    cameraParam, 
+    jogadorParam, 
+    estrada, 
+    tf, 
+    diretorParam, 
+    menu, 
+    width, 
+    height
+  ));
 };
 
 const init = () => {
