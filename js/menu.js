@@ -73,6 +73,7 @@ class Menu {
         // Cria a pista com base na opção selecionada
         estradaParam.create();
 
+        jogador.create(this, pistas[this.selecionarOpcao[zero]].tamanhoPista);
         // Cria o diretor da corrida com a pista selecionada
         // diretor.create(estrada, this.selecionarOpcao[0]);
     

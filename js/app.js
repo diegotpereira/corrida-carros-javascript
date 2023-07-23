@@ -70,6 +70,7 @@ const loop = (
     // Renderiza os elementos na tela
     telaFundo.render(render, cameraParam, jogadorParam, estrada.width);     
     estrada.render(render, cameraParam, jogadorParam);
+    jogadorParam.render(render, cameraParam, estrada.width, diretorParam);
 
     // Restaura o estado anterior do contexto de renderização
     render.restore();
@@ -162,4 +163,6 @@ recurso
   .add('skyDark', './img/tela_fundo/skyDark.png')
   .add('hill', './img/tela_fundo/hill.png')
   .add('tree', './img/tela_fundo/tree.png')
+  .add('playerLeft', './img/jogador/playerLeft.png')
+  .add('playerRight', './img/jogador/playerRight.png')
   .carregarImagem(() => requestAnimationFrame(() => init()));
