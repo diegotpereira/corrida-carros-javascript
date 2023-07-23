@@ -1,15 +1,23 @@
 import HandleInput from "./handleInput.js"
 import Recurso from "./recurso.js"
 
+// Seleciona o elemento HTML com o ID "canvas_principal" e armazena na variável canvas
 const canvas = document.querySelector('#canvas_principal')
 
+// Define o campo de visão do jogo em graus (120°) e converte para radianos
 const campoVisao = (120 / 180) * Math.PI;
 const theta = campoVisao * 0.5;
+
+// Cria uma instância da classe HandleInput
 const handleInput = new HandleInput();
+
+// Cria uma instância da classe Recurso
 const recurso = new Recurso()
 
+// Função para calcular a posição inicial da pista com base no tamanho da pista e na posição
 const posicaoInicial = (tamanhoPista, posicao) => (tamanhoPista - (posicao * 16)) * 200;
 
+// Objeto contendo informações sobre a pista de teste
 const pistas = {
 
     teste: {
@@ -25,6 +33,7 @@ const pistas = {
             guiaEscura: '#ff0000'
         },
 
+        // Array de objetos representando as curvas da pista de teste
         curvas: [
 
             {
@@ -97,14 +106,7 @@ const pistas = {
     }
 }
 
-// const cores = {
-//     faixa: '#ffffff', // cor das faixas
-//     grama: '#008800', // cor da grama
-//     guia: '#ffffff', // cor das guias
-//     estrada: '#424142', // cor da estrada
-//   };
-  
-
+// Exporta as variáveis e a função para serem utilizadas em outros módulos
 export {
 
     handleInput,

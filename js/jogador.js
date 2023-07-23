@@ -31,14 +31,14 @@ class Jogador{
      */
     render(render, camera, estradaLargura) {
 
-        const clip = 0;
-        const escala = 1 / camera.h;
+        // const clip = 0;
+        // const escala = 1 / camera.h;
 
-        render.drawSprite(
-            this.sprite, camera, this, estradaLargura, escala,
-            camera.tela.meioTela.x, camera.tela.height, clip,
-            this.sprite.spritesInX, this.sprite.spritesInY
-        );
+        // render.drawSprite(
+        //     this.sprite, camera, this, estradaLargura, escala,
+        //     camera.tela.meioTela.x, camera.tela.height, clip,
+        //     this.sprite.spritesInX, this.sprite.spritesInY
+        // );
     }
 
 }

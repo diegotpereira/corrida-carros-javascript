@@ -4,31 +4,37 @@ class Render {
 
     /**
     *
-    * @param {CanvasRenderingContext2D} ctx
+    * @param {CanvasRenderingContext2D} ctx - Contexto do canvas para renderização
     */
 
     constructor(ctx) {
 
+        // Armazena o contexto do canvas
         this.ctx = ctx;
     }
 
+    // Limpa a área do canvas dentro de um retângulo especificado
     clear(x, y, w, h) {
         this.ctx.clearRect(x, y, w, h);
     }
 
+    // Salva o estado atual do contexto
     save() {
     this.ctx.save();
     }
 
+    // Restaura o estado do contexto para o último salvo
     restore() {
     this.ctx.restore();
     }
 
+    // Desenha um trapezoide na tela com coordenadas e larguras especificadas
     drawTrapezium(x1, y1, w1, x2, y2, w2, cor = 'green') {
 
         this.drawPolygon(cor, x1- w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);
     }
 
+    // Desenha um polígono com uma cor e um conjunto de coordenadas
     drawPolygon(cor, ...coords) {
 
         if (coords.length > 1) {
@@ -50,6 +56,7 @@ class Render {
         }
     }
 
+    // Desenha texto na tela com várias opções de formatação
     desenharTexto(cor, texto, telaX = 300, telaY = 200, fontSize = '2',
         font = 'OutriderCond', align = 'center', colorStroke = 'black', stroke = false) {
 
@@ -71,17 +78,19 @@ class Render {
         ctx.restore();
     }
     
-   /**
-   *
-   * @param {Sprite} sprite
-   * @param {Camera} camera
-   * @param {Jogador} jogador
-   * @param {Number} estradaLargura
-   * @param {Number} escala
-   * @param {Number} destX
-   * @param {Number} destY
-   * @param {Number} clip
-   */
+    /**
+     *
+     * @param {Sprite} sprite - O sprite a ser desenhado
+     * @param {Camera} camera - A câmera que determina a posição do sprite
+     * @param {Jogador} jogador - O jogador relacionado ao sprite
+     * @param {Number} estradaLargura - A largura da estrada
+     * @param {Number} escala - A escala do sprite
+     * @param {Number} destX - A posição X do destino do sprite
+     * @param {Number} destY - A posição Y do destino do sprite
+     * @param {Number} clip - Valor de recorte
+     * @param {Number} spritesInX - Número de sprites na direção X
+     * @param {Number} spritesInY - Número de sprites na direção Y
+     */
     drawSprite(sprite, camera, jogador, estradaLargura, escala,
         destX, destY, clip, spritesInX = 1, spritesInY = 1 ) {
 
@@ -126,7 +135,7 @@ class Render {
         }
     }
 
-    
+    // Desenha um retângulo arredondado
     roundRect(cor, x, y, width, height, radius = 5, fill, stroke = true) {
 
         
@@ -134,4 +143,5 @@ class Render {
     
 }
 
+// Exporta a classe Render para ser utilizada em outros módulos
 export default Render

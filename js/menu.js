@@ -2,8 +2,14 @@ import { handleInput, pistas, posicaoInicial } from "./util.js";
 
 class Menu {
 
+    /**
+     * Construtor da classe Menu
+     * @param {Number} width - Largura do menu
+     * @param {Number} height - Altura do menu
+     */
     constructor(width, height) {
 
+        // Inicializa as propriedades do menu
         this.exibirMenu = 0;
         this.height = height;
         this.width = width;
@@ -11,6 +17,8 @@ class Menu {
         this.menuX = 5;
         this.menuY = 0;
         this.atualizarTempo = 6 / 60;
+
+        // Textos do menu exibidos na tela
         this.menuFrase = {
 
             0: 'Circuito: ',
@@ -21,6 +29,7 @@ class Menu {
             5: 'Iniciar ',
         };
 
+        // Opções disponíveis para cada item do menu
         this.menu = {
 
             0: Object.keys(pistas),
@@ -31,6 +40,7 @@ class Menu {
             5: ['corrida'],
         };
 
+        // Opções selecionadas no menu
         this.selecionarOpcao = {
 
             0: 'teste',
@@ -41,39 +51,59 @@ class Menu {
             5: 'corrida'
         };
 
+        // Define a animação do título do menu
         this.menuTitulo = {pos: 0, direcao: 1}
     }
 
+    // Inicia a corrida com as opções selecionadas
     iniciarCorrida(jogador, estrada, diretor) {
 
+        // Obtém a referência para o objeto de estrada
         const estradaParam = estrada;
 
+        // Constante para evitar erro de sintaxe
         const zero = 0;
 
+        // Calcula a posição inicial na pista com base nas opções selecionadas
         posicaoInicial(pistas[this.selecionarOpcao[zero]].tamanhoPista);
 
+        // Define o nome da pista com base na opção selecionada
         estradaParam.pistaNome = this.selecionarOpcao[0];
 
+        // Cria a pista com base na opção selecionada
         estradaParam.create();
 
-        diretor.create(estrada, this.selecionarOpcao[0]);
-        // diretor.create();
+        // Cria o diretor da corrida com a pista selecionada
+        // diretor.create(estrada, this.selecionarOpcao[0]);
+    
     }
 
+    // Atualiza o menu com base nas entradas do jogador
     update(jogador, estrada, diretor) {
 
+        // Verifica se a tecla Enter foi pressionada e o menu não está exibido
         if (handleInput.mapPress.enter && !this.exibirMenu) {
             
-            this.selecionarOpcao[3] = 'sim';
+            // Configura a opção de música para "sim"
+            // this.selecionarOpcao[3] = 'sim';
+
+            // Exibe o menu
             this.exibirMenu = 1;
+
+            // Define a posição inicial do título do menu
             this.menuTitulo.pos = 0;
+
+            // Marca a tecla Enter como não pressionada
             handleInput.mapPress.enter = false;
         }
 
+        // Verifica se o menu está sendo exibido
         if (this.exibirMenu) {
 
+            // Última opção do menu
             const ultimaOpcaoMenu = Object.keys(this.menu).length - 1;
 
+            // Atualiza a opção selecionada do menu com base na entrada do jogador
             if (this.menuX !== ultimaOpcaoMenu) {
                 
                 this.selecionarOpcao[this.menuX] = this.menu[this.menuX][this.menuY];
@@ -81,15 +111,22 @@ class Menu {
             }
             
 
+            // Verifica se a tecla Enter foi pressionada e a última opção do menu foi selecionada
             if (handleInput.mapPress.enter && this.menuX === ultimaOpcaoMenu) {
 
-                const botaoPausar = document.querySelector('#botaoPausar');
-                // const fps = document.querySelector('#fps');
-                
-                botaoPausar.classList.toggle('hidden');
+                // Obtém a referência para o botão "Pausar/Continuar" na tela
+                // const botaoPausar = document.querySelector('#botaoPausar');
+                // // const fps = document.querySelector('#fps');
+                // // Exibe ou oculta o botão "Pausar/Continuar"
+                // botaoPausar.classList.toggle('hidden');
 
+                // Inicia a corrida com as opções selecionadas
                 this.iniciarCorrida(jogador, estrada, diretor);
+
+                 // Define o estado do menu como "corrida"
                 this.estado = 'corrida';
+
+                // Marca a tecla Enter como não pressionada
                 handleInput.mapPress.enter = false;
                 // fps.firstElementChild.classList.remove('hidden');
                 
@@ -97,30 +134,39 @@ class Menu {
         }
     }
 
+    // Renderiza o menu na tela
     render(render) {
 
+        // Desenha o título do jogo na tela
         render.desenharTexto('#EB4844', 'Corrida de Carros em JS', 320, 30, 4, 'OutriderCondBold');
 
+        // Verifica se o menu não está sendo exibido
         if (!this.exibirMenu) {
             
-            
+            // Exibe uma mensagem para pressionar Enter para iniciar a corrida
             if (window.navigator.maxTouchPoints) {
                 
                 render.desenharTexto('black', 'Aperte ok para iniciar', 320, 180 + this.menuTitulo.pos);
+
             } else {
 
                 render.desenharTexto('black', 'Aperte Enter para iniciar', 320, 180 + this.menuTitulo.pos);
             }
         }
 
+        // Verifica se o menu está sendo exibido
         if (this.exibirMenu) {
 
+            // Animação do título do menu
             if(this.menuTitulo.pos >= 4) this.menuTitulo.direcao = -1;
             if(this.menuTitulo.pos <= -4) this.menuTitulo.direcao = 1;
 
             this.menuTitulo.pos += (this.menuTitulo.direcao / 2);
             
+             // Última opção do menu
             const maxX = Object.keys(this.menu).length - 1;
+
+            // Índices das opções do menu acima e abaixo da opção atualmente selecionada
             const menuBaixo = this.menuX - 1 >= 0  ? this.menuX - 1 : maxX;
             const menuAlto = this.menuX + 1 <= maxX ? this.menuX + 1 : 0;
 
