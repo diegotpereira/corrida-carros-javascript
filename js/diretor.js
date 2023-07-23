@@ -25,8 +25,8 @@ class Diretor {
 
         // this.pistaNome = pistaNome;
 
-        // this.luzesLargada.offsetX = 0;
-        // this.luzesLargada.offsetY = 2;
+        // this.luzesLargada.deslocamentoX = 0;
+        // this.luzesLargada.deslocamentoY = 2;
         // this.luzesLargada.escalaX = 27;
         // this.luzesLargada.escalaY = 27;
         // this.luzesLargada.spritesInX = 6;

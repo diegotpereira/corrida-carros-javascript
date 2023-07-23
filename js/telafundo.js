@@ -28,39 +28,40 @@ class TelaFundo {
 
   update(jogador, camera, estrada, diretor) {
 
-    // if (diretor.pausado) {
+    if (diretor.pausado) {
       
-    //   const aumentar = (iniciar, incrementar, max) => {
+      const aumentar = (iniciar, incrementar, max) => {
 
-    //     let resultado = iniciar + incrementar;
+        let resultado = iniciar + incrementar;
 
-    //     while(resultado >= max) {
+        while(resultado >= max) {
 
-    //       resultado -= max;
-    //     }
+          resultado -= max;
+        }
 
-    //     while (resultado < 0) {
+        while (resultado < 0) {
           
-    //       resultado += max;
-    //     }
+          resultado += max;
+        }
 
-    //     return resultado;
-    //   }
+        return resultado;
+      }
 
-    //   const segmento = estrada.getSegmento(camera.cursor);
+      const segmento = estrada.getSegmento(camera.cursor);
+      const velocidadePercentual = jogador.correnteDeEnergia / jogador.maxVelocidade;
 
-    //   this.deslocamentoCamada1 = aumentar(
-    //     this.deslocamentoCamada1, this.camadaVelocidade1 * segmento.curva * velocidadePercentual * -1, 2,
-    //   );
+      this.deslocamentoCamada1 = aumentar(
+        this.deslocamentoCamada1, this.camadaVelocidade1 * segmento.curva * velocidadePercentual * -1, 2,
+      );
 
-    //   this.deslocamentoCamada2 = aumentar(
-    //     this.deslocamentoCamada2, this.camadaVelocidade2 * segmento.curva * velocidadePercentual * -1, 2,
-    //   );
+      this.deslocamentoCamada2 = aumentar(
+        this.deslocamentoCamada2, this.camadaVelocidade2 * segmento.curva * velocidadePercentual * -1, 2,
+      );
 
-    //   this.deslocamentoCamada3 = aumentar(
-    //     this.deslocamentoCamada3, this.camadaVelocidade3 * segmento.curva * velocidadePercentual * -1, 2,
-    //   );
-    // }
+      this.deslocamentoCamada3 = aumentar(
+        this.deslocamentoCamada3, this.camadaVelocidade3 * segmento.curva * velocidadePercentual * -1, 2,
+      );
+    }
   }
 
   /**
@@ -89,7 +90,7 @@ class TelaFundo {
         
       );
 
-      if (Math.abs(this[`${item}Offset`]) > 1) {
+      if (Math.abs(this[`${item}deslocamento`]) > 1) {
         
         render.drawSprite(
 

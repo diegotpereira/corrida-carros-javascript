@@ -1,4 +1,5 @@
 import SegmentoLinha from "./segmentoLinha.js";
+import Sprite from "./sprite.js";
 import { pistas } from "./util.js"
 
 class Estrada {
@@ -6,52 +7,44 @@ class Estrada {
     /**
     * @type {SegmentoLinha[]}
     */
-
-    // Array para armazenar os segmentos da estrada
-    #segmentos = [];
-
-    // Comprimento do segmento da estrada
-    #segmentoTamanho = 200;
-
-    // Número de segmentos visíveis na tela
-    visibilidadeSegmentos = 600;
-
-    // Número de segmentos para alterar a cor do meio-fio
-    #k = 13;
-
-    // Largura da estrada
-    #width = 2000;
+    #segmentos = []; // Array privado de segmentos de linha
+    #segmentoTamanho = 200; // Tamanho de cada segmento de linha
+    visibilidadeSegmentos = 600; // Quantidade de segmentos de linha visíveis na tela
+    // O valor de 'k' na classe Estrada é utilizado para determinar a frequência com 
+    // que as cores dos segmentos de linha se repetem na estrada. 
+    #k = 13; // Constante 'k'
+    #width = 2000; // Largura da estrada
 
     constructor(pistaNome) {
 
         this.pistaNome = pistaNome;
     }
 
-    // Getter para o valor de k
+    // Método getter para obter o valor de 'k'
     get k() {
 
         return this.#k;
     }
 
-    // Getter para o comprimento do segmento da estrada
+    // Método getter para obter o tamanho de cada segmento de linha
     get segmentoTamanho() {
 
         return this.#segmentoTamanho;
     }
 
-    // Getter para o comprimento total da pista (em unidades de segmento)
+    // Método getter para obter a quantidade de segmentos de linha
     get segmentosTamanho() {
 
         return this.#segmentos.length
     }
 
-    // Getter para o comprimento total da estrada
+    // Método getter para obter o tamanho total da estrada
     get length() {
 
         return this.segmentosTamanho * this.segmentoTamanho
     }
 
-    // Getter para a largura da estrada
+    // Método getter para obter a largura da estrada
     get width() {
 
         return this.#width;
@@ -59,28 +52,35 @@ class Estrada {
 
 
    /**
-   *
-   * @param {Number} cursor
-   * @returns
+   * Obtém o segmento de linha correspondente à posição 'cursor'
+   * @param {Number} cursor - A posição do cursor
+   * @returns O segmento de linha correspondente à posição 'cursor'
    */
-
-    // Método para obter o segmento da estrada com base na posição do cursor
     getSegmento(cursor) {
 
         return this.#segmentos[Math.floor(cursor / this.#segmentoTamanho) % this.segmentosTamanho]
     }
 
-    // Método para obter o segmento da estrada com base no índice fornecido
+    /**
+     * Obtém o segmento de linha do índice especificado
+     * @param {Number} index - O índice do segmento
+     * @returns O segmento de linha do índice especificado
+     */
     getSegmentoDoIndice(index) {
 
         return this.#segmentos[index % this.segmentosTamanho]
     }
 
-    // Método para criar a pista de acordo com o nome da pista fornecido
+    // Cria a estrada com base na pista definida
     create() {
 
+        
         this.#segmentos = [];
+
+        // Obtém o valor de 'k' da classe Estrada
         const { k } = this;
+
+        // Obtém o tamanho da pista e as cores da pista com base no nome da pista
         const { tamanhoPista, cores } = pistas[this.pistaNome];
 
         // Loop para criar cada segmento da estrada
@@ -119,555 +119,286 @@ class Estrada {
                 faixa: '#fff'
             }
 
+            // Cria um novo segmento de linha
             const segmentoLinha = new SegmentoLinha();
+
+            // Define o índice do segmento
             segmentoLinha.index = i;
 
+            // Define as cores do segmento com base no padrão de cores
             if(Math.floor(i / k) % 4 === 0) segmentoLinha.cores = coresMaisClaras;
             if(Math.floor(i / k) % 4 === 1) segmentoLinha.cores = coresMaisEscuras;
             if(Math.floor(i / k) % 4 === 2) segmentoLinha.cores = coresClaras;
             if(Math.floor(i / k) % 4 === 3) segmentoLinha.cores = coresEscuras;
 
+            // Define cores e padrão para os primeiros 12 segmentos da estrada
             if (i <= 11) {
                 
-                segmentoLinha.cores.estrada = '#fff';
-
+                segmentoLinha.cores.estrada = '#fff'
                 i % 4 === 0 || i % 4 === 1 ? segmentoLinha.cores.checkers = 'one' : segmentoLinha.cores.checkers = 'two';
             }
 
-
+            // Define o tamanho e a posição do segmento no mundo
             const { mundo } = segmentoLinha.pontos;
             mundo.w = this.width;
             mundo.z = (i + 1) * this.segmentoTamanho;
+
+            // Adiciona o segmento à lista de segmentos
             this.#segmentos.push(segmentoLinha);
+
+            // // Função interna para criar curvas no segmento
+            // const criarCurva = (min, max, curva, guia) => {
+
+            //     if (i >= min && i <= max) {
+                    
+            //         segmentoLinha.curva = curva;
+            //         segmentoLinha.guia = guia;
+            //     }
+            // };
+
+            // // Loop para criar curvas no segmento com base nas informações da pista
+            // pistas[this.pistaNome].curvas
+            //     .forEach((curva) => criarCurva(curva.min, curva.max, curva.inclinacaoCurva, curva.guia));
             
         }
     }
 
     /**
-     * @param {Render} render
-     * @param {Camera} camera
-     * @param {Jogador} jogador
+     * Renderiza a estrada na tela
+     * @param {Render} render - O renderizador do jogo
+     * @param {Camera} camera - A câmera do jogo
+     * @param {Jogador} jogador O jogador do jogo
      */
 
     // Função de renderização, recebe três parâmetros: render, camera e jogador.
     render(render, camera, jogador) {
 
-        // // Cria uma constante chamada cameraClass que recebe o valor do parâmetro 'camera'.
-        // const cameraClass = camera;
+        // Armazena a referência da classe camera em uma variável local cameraClass
+        const cameraClass = camera;
+
+        // Extrai a propriedade segmentosTamanho da classe Estrada e armazena 
+        // em uma variável local
+        const { segmentosTamanho } = this;
+
+        // Obtém o segmento de linha base com base na posição da câmera e armazena 
+        // o índice na variável inicialPos
+        const baseSegmento = this.getSegmento(camera.cursor);
+        const inicialPos = baseSegmento.index
+
+        // Define a posição vertical da câmera ajustada para a posição do segmento de linha base
+        cameraClass.y = camera.h + baseSegmento.pontos.mundo.y;
+
+        // Inicializa variáveis maxY, anx e snx
+        let maxY = camera.tela.height;
+        let anx = 0;
+        let snx = 0
+
+        // Loop para renderizar os segmentos de linha visíveis na tela
+        for (let i = inicialPos; i < inicialPos + this.visibilidadeSegmentos; i += 1) {
+            
+            // Obtém o segmento de linha atual com base no índice do loop
+            const atualSegmento = this.getSegmentoDoIndice(i);
+
+            // Ajusta a posição da câmera no eixo Z e no eixo X para acompanhar o 
+            // segmento de linha atual e o jogador
+            cameraClass.z = camera.cursor - (i >= segmentosTamanho ? this.length : 0);
+            cameraClass.x = jogador.x * atualSegmento.pontos.mundo.w - snx;
+
+            // Realiza a projeção do segmento de linha atual na tela
+            atualSegmento.projetar(camera);
+
+            // Atualiza as variáveis anx e snx para ajudar no cálculo 
+            // do deslocamento horizontal dos segmentos de linha
+            anx += atualSegmento.curva;
+            snx += anx;
+            
+            // Armazena a posição do segmento de linha atual na tela
+            const atualSegmentoTela = atualSegmento.pontos.tela;  
+            atualSegmento.clip = maxY;
+
+            // Verifica se o segmento de linha atual está acima do limite 
+            // superior da tela ou se o deltaZ da câmera está abaixo da distância do plano do projetor
+            // Se alguma dessas condições for verdadeira, o segmento não será renderizado, 
+            // portanto, continua para o próximo segmento
         
-        // // Destruturação do objeto 'this', buscando o valor de segmentosTamanho.
-        // const { segmentosTamanho } = this//8736;
-        // // let cursor = 1683200;
+            if(
+                atualSegmentoTela.y >= maxY
+                || camera.deltaZ <= camera.distanciaDoPlanoProjetor
+            ) {
 
-        // // Obtém o segmento base com base no cursor da câmera.
-        // const baseSegmento = this.getSegmento(camera.cursor);
+                continue;
+            }
 
-        // // Obtém a posição inicial a partir do índice do segmento base.
-        // const inicialPos = baseSegmento.index
-        // // const inicialPos = 8416
-
-        // // Configura a posição 'y' da câmera para a altura da tela mais o valor 'y' do ponto 'mundo' do segmento base.
-        // cameraClass.y = camera.h + baseSegmento.pontos.mundo.y;
-
-        // // Define a variável 'maxY' com a altura da tela.
-        // let maxY = camera.tela.height;
-
-        // // Inicializa as variáveis 'anx' e 'snx' com zero.
-        // let anx = 0;
-        // let snx = 0
-
-        // // Loop que percorre os segmentos a serem visualizados.
-        // for (let i = inicialPos; i < inicialPos + this.visibilidadeSegmentos; i += 1) {
-            
-        //     // Obtém o segmento atual a partir do índice 'i'.
-        //     const atualSegmento = this.getSegmentoDoIndice(i);
-
-        //     // Configura a posição 'z' da câmera com base no cursor, considerando a extensão do cenário.
-        //     cameraClass.z = camera.cursor - (i >= segmentosTamanho ? this.length : 0);
-
-        //     // Calcula a posição 'x' da câmera com base na posição 'x' do jogador e na largura do segmento atual.
-        //     cameraClass.x = jogador.x * atualSegmento.pontos.mundo.w - snx;
-
-        //     // Projeta o segmento atual na câmera.
-        //     atualSegmento.projetar(camera);
-
-        //     // Incrementa 'snx' com 'anx'.
-        //     snx += anx;
-            
-        //     // Obtém os pontos de tela do segmento atual.
-        //     const atualSegmentoTela = atualSegmento.pontos.tela;
-
-        //     // Define o valor de 'clip' do segmento atual com base em 'maxY'.   
-        //     atualSegmento.clip = maxY;
-
-        //     // Verifica se o segmento atual está fora da tela ou muito próximo do plano do projetor da câmera.
-        //     if(
-        //         atualSegmentoTela.y >= maxY
-        //         || camera.deltaZ <= camera.distanciaDoPlanoProjetor
-        //     ) {
-
-        //         // Caso a condição seja satisfeita, continua para o próximo segmento.
-        //         continue;
-        //     }
-
-        //     // Verifica se o índice 'i' é maior que zero.
-        //     if (i > 0) {
+            // Verifica se o índice é maior que 0 para poder desenhar as áreas da estrada e faixas
+            if (i > 0) {
                 
-        //         // Obtém o segmento anterior com base no índice 'i - 1'.
-        //         const anteriorSegmento = this.getSegmentoDoIndice(i - 1);
-        //         const anteriorSegmentoTela = anteriorSegmento.pontos.tela;
-        //         const { cores } = atualSegmento;
+                // Obtém o segmento de linha anterior com base no índice do loop anterior
+                const anteriorSegmento = this.getSegmentoDoIndice(i - 1);
+                const anteriorSegmentoTela = anteriorSegmento.pontos.tela;
+                const { cores } = atualSegmento;
 
-        //         if (atualSegmentoTela.y >= anteriorSegmentoTela.y) {
+                // Verifica se o segmento de linha atual está acima do segmento de linha anterior na tela
+                // Se for o caso, o segmento atual não será renderizado, portanto, continua para o próximo segmento
+                if (atualSegmentoTela.y >= anteriorSegmentoTela.y) {
                     
-        //             continue;
-        //         }
+                    continue;
+                }
 
-        //         render.drawTrapezium(
+                // Desenha o trapézio que representa a área da estrada
+                render.drawTrapezium(
 
-        //             anteriorSegmentoTela.x, anteriorSegmentoTela.y, anteriorSegmentoTela.w,
-        //             atualSegmentoTela.x, atualSegmentoTela.y, atualSegmentoTela.w,
-        //             cores.estrada
-        //         );
+                    anteriorSegmentoTela.x, anteriorSegmentoTela.y, anteriorSegmentoTela.w,
+                    atualSegmentoTela.x, atualSegmentoTela.y, atualSegmentoTela.w,
+                    cores.estrada
+                );
 
-        //         // grama esquerdo
-        //         render.drawPolygon(
-        //             cores.grama,
-        //             0, anteriorSegmentoTela.y,
-        //             anteriorSegmentoTela.x - anteriorSegmentoTela.w, anteriorSegmentoTela.y,
-        //             atualSegmentoTela.x - atualSegmentoTela.w, atualSegmentoTela.y,
-        //             0, atualSegmentoTela.y
-        //         );
+                // Desenha as áreas de grama à esquerda
+                render.drawPolygon(
+                    cores.grama,
+                    0, anteriorSegmentoTela.y,
+                    anteriorSegmentoTela.x - anteriorSegmentoTela.w, anteriorSegmentoTela.y,
+                    atualSegmentoTela.x - atualSegmentoTela.w, atualSegmentoTela.y,
+                    0, atualSegmentoTela.y
+                );
 
-        //         // grama direita
-        //         render.drawPolygon(
-        //             cores.grama,
-        //             anteriorSegmentoTela.x + anteriorSegmentoTela.w * 1, anteriorSegmentoTela.y,
-        //             camera.tela.width, anteriorSegmentoTela.y,
-        //             camera.tela.width, atualSegmentoTela.y,
-        //             atualSegmentoTela.x + atualSegmentoTela.w, atualSegmentoTela.y,
-        //         );
+                // Desenha as áreas de grama à direita da estrada
+                render.drawPolygon(
+                    cores.grama,
+                    anteriorSegmentoTela.x + anteriorSegmentoTela.w * 1, anteriorSegmentoTela.y,
+                    camera.tela.width, anteriorSegmentoTela.y,
+                    camera.tela.width, atualSegmentoTela.y,
+                    atualSegmentoTela.x + atualSegmentoTela.w, atualSegmentoTela.y,
+                );
 
-        //         // if (atualSegmento.guia) {
+                // Verifica se o segmento de linha atual possui guias laterais (faixas)
+                if (atualSegmento.guia) {
                     
-        //         //     // guia esquerda
-        //         //     render.drawPolygon(
+                    // Desenha as guias laterais à esquerda
+                    render.drawPolygon(
 
-        //         //         cores.guia,
-        //         //         anteriorSegmentoTela.x - anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
-        //         //         anteriorSegmentoTela.x - anteriorSegmentoTela.w, anteriorSegmentoTela.y,
-        //         //         atualSegmentoTela.x - atualSegmentoTela.w, atualSegmentoTela.y,
-        //         //         atualSegmentoTela.x - atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
+                        // cores.guia,
+                        // anteriorSegmentoTela.x - anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
+                        // anteriorSegmentoTela.x - anteriorSegmentoTela.w, anteriorSegmentoTela.y,
+                        // atualSegmentoTela.x - atualSegmentoTela.w, atualSegmentoTela.y,
+                        // atualSegmentoTela.x - atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
 
-        //         //     );
+                    );
 
-        //         //     // guia direita
-        //         //     render.drawPolygon(
+                    // Desenha as guias laterais à direita da estrada
+                    render.drawPolygon(
 
-        //         //         cores.guia,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w, anteriorSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w, atualSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
-        //         //     )
-        //         // }
+                        // cores.guia,
+                        // anteriorSegmentoTela.x + anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
+                        // anteriorSegmentoTela.x + anteriorSegmentoTela.w, anteriorSegmentoTela.y,
+                        // atualSegmentoTela.x + atualSegmentoTela.w, atualSegmentoTela.y,
+                        // atualSegmentoTela.x + atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
+                    )
+                }
 
-        //         // if (cores.faixa) {
+                // Verifica se o segmento de linha atual possui faixas (cores.faixa)
+                if (cores.faixa) {
 
-        //         //     // faixa esquerda
-        //         //     render.drawPolygon(
+                    // Desenha as faixas laterais à esquerda
+                    render.drawPolygon(
 
-        //         //         cores.faixa,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.97, anteriorSegmentoTela.y,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.94, anteriorSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * -0.94, atualSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * -0.97, atualSegmentoTela.y,
-        //         //     );
+                        cores.faixa,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.97, anteriorSegmentoTela.y,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.94, anteriorSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * -0.94, atualSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * -0.97, atualSegmentoTela.y,
+                    );
 
-        //         //     render.drawPolygon(
+                    // Desenha as faixas laterais à direita da estrada
+                    render.drawPolygon(
 
-        //         //         cores.faixa,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.91, anteriorSegmentoTela.y,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.88, anteriorSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * -0.88, atualSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * -0.91, atualSegmentoTela.y,
-        //         //     );
+                        cores.faixa,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.91, anteriorSegmentoTela.y,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * -0.88, anteriorSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * -0.88, atualSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * -0.91, atualSegmentoTela.y,
+                    );
 
-        //         //     // faixa direita
-        //         //     render.drawPolygon(
+                    // faixa direita
+                    render.drawPolygon(
 
-        //         //         cores.faixa,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.97, anteriorSegmentoTela.y,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.94, anteriorSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * 0.94, atualSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * 0.97, atualSegmentoTela.y,
-        //         //     );
+                        cores.faixa,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.97, anteriorSegmentoTela.y,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.94, anteriorSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * 0.94, atualSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * 0.97, atualSegmentoTela.y,
+                    );
 
-        //         //     render.drawPolygon(
+                    render.drawPolygon(
 
-        //         //         cores.faixa,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.91, anteriorSegmentoTela.y,
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.88, anteriorSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * 0.88, atualSegmentoTela.y,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.w * 0.91, atualSegmentoTela.y,
-        //         //     );
+                        cores.faixa,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.91, anteriorSegmentoTela.y,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * 0.88, anteriorSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * 0.88, atualSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * 0.91, atualSegmentoTela.y,
+                    );
 
-        //         //     const valor = 0.02;
+                    const valor = 0.02;
 
-        //         //     render.drawTrapezium(
+                    // Desenha a faixa central no meio da estrada
+                    render.drawTrapezium(
 
-        //         //         anteriorSegmentoTela.x + anteriorSegmentoTela.y, anteriorSegmentoTela.w * valor,
-        //         //         atualSegmentoTela.x + atualSegmentoTela.y, atualSegmentoTela.w * valor,
-        //         //         cores.faixa
-        //         //     );
-                    
-                    
-                    
-                    
-        //         // }
+                        anteriorSegmentoTela.x, anteriorSegmentoTela.y, anteriorSegmentoTela.w * valor,
+                        atualSegmentoTela.x, atualSegmentoTela.y, atualSegmentoTela.w * valor,
+                        cores.faixa
+                    );                   
+                }
 
-        //         // if (cores.checkers === 'one') {
+                // Verifica se o segmento de linha atual possui padrão de quadriculado 'one'
+                if (cores.checkers === 'one') {
 
-        //         //     for (let i = 0; i < 0.9; i++) {
+                    for (let i = -1; i < 0.9; i += 2 / 3) {
                         
-        //         //         render.drawPolygon(
-        //         //             'black',
-        //         //             anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
-        //         //             anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
-        //         //             atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
-        //         //             atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
-        //         //         );
+                        // Desenha os quadriculados na pista
+                        render.drawPolygon(
+                            // 'black',
+                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
+                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
+                            // atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
+                            // atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
+                        );
                         
-        //         //     }
+                    }
                     
-        //         // }
+                }
 
-        //         // if (cores.checkers === 'two') {
+                // Verifica se o segmento de linha atual possui padrão de quadriculado 'two'
+                if (cores.checkers === 'two') {
 
-        //         //     for (let i = 0; i < 0.9; i++) {
+                    for (let i = -2 / 3; i < 0.9; i += 2 / 3) {
                         
-        //         //         render.drawPolygon(
-        //         //             'black',
-        //         //             anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
-        //         //             anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
-        //         //             atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
-        //         //             atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
-        //         //         );
+                        // Desenha os quadriculados na pista 
+                        render.drawPolygon(
+                            // 'black',
+                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
+                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
+                            // atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
+                            // atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
+                        );
                         
-        //         //     }
+                    }
                     
-        //         // }
-        //     }
-        //     maxY = atualSegmentoTela.y;
-        // }
+                }
+            }
 
-        // for (let i = (this.visibilidadeSegmentos + inicialPos) - 1; i >= inicialPos; i -= 1) {
+            // Atualiza o valor de maxY para a próxima iteração do loop         
+            maxY = atualSegmentoTela.y;
+        }
+
+        // Loop para renderizar os sprites dos segmentos de linha
+        for (let i = (this.visibilidadeSegmentos + inicialPos) - 1; i >= inicialPos; i -= 1) {
             
-        //     this.getSegmentoDoIndice(i)
-        //     .drawSprite(render, camera, jogador);
+            // Obtém o segmento de linha atual com base no índice do loop
+            // this.getSegmentoDoIndice(i)
+            // .drawSprite(render, camera, jogador);
+
             
-        // }
+        }
     }
 }
-
-
-
-
-
-
-//     /**
-//   * @type {SegmentoLinha[]}
-//   */
-
-//   // Lista de segmentos da estrada
-//   #segments = [];
-
-//   // Comprimento de cada segmento da estrada
-//   #segmentLength = 200; 
-
-//   // Número de segmentos visíveis na tela
-//   visibleSegments = 600;
-
-//   // Número de segmentos para alterar a cor do meio-fio
-//   #k = 13;
-
-//   // Largura da estrada
-//   #width = 2000;
-//   constructor(pistaNome) {
-//     this.pistaNome = pistaNome;
-//   }
-
-//   get k() {
-//     return this.#k;
-//   }
-
-//   /**
-//    * Segment size on estrada
-//    */
-//   get segmentLength() {
-//     return this.#segmentLength;
-//   }
-
-//   /**
-//    * Total of segments (track length)
-//    */
-//   get segmentsLength() {
-//     return this.#segments.length;
-//   }
-
-//   get length() {
-//     return this.segmentsLength * this.segmentLength;
-//   }
-
-//   get width() {
-//     return this.#width;
-//   }
-
-//   /**
-//    *
-//    * @param {Number} cursor
-//    * @returns
-//    */
-//   getSegment(cursor) {
-//     return this.#segments[Math.floor(cursor / this.#segmentLength) % this.segmentsLength];
-//   }
-
-//   getSegmentFromIndex(index) {
-//     return this.#segments[index % this.segmentsLength];
-//   }
-
-//   create() {
-//     this.#segments = [];
-//     const { k } = this;
-//     const { tamanhoPista, cores } = pistas[this.pistaNome];
-//     for (let i = 0; i < tamanhoPista; i += 1) {
-      
-//         const coresMaisClaras = {
-//                             estrada: cores.estradaClara,
-//                             grama: cores.gramaClara,
-//                             guia: cores.guiaClara,
-//                             faixa: ''
-//                         };
-            
-//                         const coresMaisEscuras = {
-            
-//                             estrada: cores.estradaClara,
-//                             grama: cores.gramaEscura,
-//                             guia: cores.guiaEscura,
-//                             faixa: '#fff',
-            
-//                         };
-            
-//                         const coresClaras = {
-            
-//                             estrada: '#393839',
-//                             grama: cores.gramaEscura,
-//                             guia: cores.guiaClara,
-//                             faixa: ''
-//                         };
-            
-//                         const coresEscuras = {
-            
-//                             estrada: '#393839',
-//                             grama: cores.gramaClara,
-//                             guia: cores.guiaEscura,
-//                             faixa: '#fff'
-//                         }
-
-//       const segmentLine = new SegmentoLinha();
-//       segmentLine.index = i;
-
-//       if(Math.floor(i / k) % 4 === 0) segmentLine.cores = coresMaisClaras;
-//       if(Math.floor(i / k) % 4 === 1) segmentLine.cores = coresMaisEscuras;
-//       if(Math.floor(i / k) % 4 === 2) segmentLine.cores = coresClaras;
-//       if(Math.floor(i / k) % 4 === 3) segmentLine.cores = coresEscuras;
-
-//       if (i <= 11) {
-//         segmentLine.cores.estrada = '#fff'
-//         i % 4 === 0 || i % 4 === 1 ? segmentLine.cores.checkers = 'one' : segmentLine.cores.checkers = 'two';
-//       }
-
-//       const { mundo } = segmentLine.pontos;
-//       mundo.w = this.width;
-//       mundo.z = (i + 1) * this.segmentLength;
-//       this.#segments.push(segmentLine);
-
-//     }
-
-// }
-
-  
-  
-
-//   /**
-//    *
-//    * @param {Render} render
-//    * @param {Camera} camera
-//    * @param {Jogador} jogador
-//    */
-//   render(render, camera, jogador) {
-//     const cameraClass = camera;
-//     const { segmentsLength } = this;
-//     const baseSegment = this.getSegment(camera.cursor);
-//     // const startPos = baseSegment.index;
-//     const startPos = 8416
-//     cameraClass.y = camera.h + baseSegment.pontos.mundo.y;
-//     let maxY = camera.tela.height;
-//     let anx = 0;
-//     let snx = 0;
-
-//     for (let i = startPos; i < startPos + this.visibleSegments; i += 1) {
-//       const currentSegment = this.getSegmentFromIndex(i);
-//       cameraClass.z = camera.cursor - (i >= segmentsLength ? this.length : 0);
-//       cameraClass.x = jogador.x * currentSegment.pontos.mundo.w - snx;
-//       currentSegment.projetar(camera);
-//     //   anx += currentSegment.curve;
-//       snx += anx;
-
-//       const currentScreenPoint = currentSegment.pontos.tela;
-//       currentSegment.clip = maxY;
-//       if (
-//         currentScreenPoint.y >= maxY
-//         || camera.deltaZ <= camera.distanceToProjectionPlane
-//       ) {
-//         continue;
-//       }
-
-//       if (i > 0) {
-//         const previousSegment = this.getSegmentFromIndex(i - 1);
-//         const previousScreenPoint = previousSegment.pontos.tela;
-//         const { cores } = currentSegment;
-
-//         // if (currentScreenPoint.y >= previousScreenPoint.y) {
-//         //   continue;
-//         // }
-
-//         if (336 >= 375) {
-            
-//             continue;
-//         }
-
-//         render.drawTrapezium(
-//           previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w,
-//           currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w,
-//           cores.estrada,
-//         );
-
-//         // left grama
-//         render.drawPolygon(
-//           cores.grama,
-//           0, previousScreenPoint.y,
-//           previousScreenPoint.x - previousScreenPoint.w, previousScreenPoint.y,
-//           currentScreenPoint.x - currentScreenPoint.w, currentScreenPoint.y,
-//           0, currentScreenPoint.y,
-//         );
-
-//         // right grama
-//         render.drawPolygon(
-//           cores.grama,
-//           previousScreenPoint.x + previousScreenPoint.w * 1, previousScreenPoint.y,
-//           camera.tela.width, previousScreenPoint.y,
-//           camera.tela.width, currentScreenPoint.y,
-//           currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
-//         );
-
-//         if (currentSegment.guia) {
-//           // left guia
-//           render.drawPolygon(
-//             cores.guia,
-//             previousScreenPoint.x - previousScreenPoint.w * 1.3, previousScreenPoint.y,
-//             previousScreenPoint.x - previousScreenPoint.w, previousScreenPoint.y,
-//             currentScreenPoint.x - currentScreenPoint.w, currentScreenPoint.y,
-//             currentScreenPoint.x - currentScreenPoint.w * 1.3, currentScreenPoint.y,
-//           );
-
-//           // right guia
-//           render.drawPolygon(
-//             cores.guia,
-//             previousScreenPoint.x + previousScreenPoint.w * 1.3, previousScreenPoint.y,
-//             previousScreenPoint.x + previousScreenPoint.w, previousScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * 1.3, currentScreenPoint.y,
-//           );
-//         }
-
-//         // center faixa and lateral stripes
-//         if (cores.faixa) {
-//           // left stripe
-//           render.drawPolygon(
-//             cores.faixa,
-//             previousScreenPoint.x + previousScreenPoint.w * -0.97, previousScreenPoint.y,
-//             previousScreenPoint.x + previousScreenPoint.w * -0.94, previousScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * -0.94, currentScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * -0.97, currentScreenPoint.y,
-//           );
-
-//           render.drawPolygon(
-//             cores.faixa,
-//             previousScreenPoint.x + previousScreenPoint.w * -0.91, previousScreenPoint.y,
-//             previousScreenPoint.x + previousScreenPoint.w * -0.88, previousScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * -0.88, currentScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * -0.91, currentScreenPoint.y,
-//           );
-
-//           // right stripe
-//           render.drawPolygon(
-//             cores.faixa,
-//             previousScreenPoint.x + previousScreenPoint.w * 0.97, previousScreenPoint.y,
-//             previousScreenPoint.x + previousScreenPoint.w * 0.94, previousScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * 0.94, currentScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * 0.97, currentScreenPoint.y,
-//           );
-
-//           render.drawPolygon(
-//             cores.faixa,
-//             previousScreenPoint.x + previousScreenPoint.w * 0.91, previousScreenPoint.y,
-//             previousScreenPoint.x + previousScreenPoint.w * 0.88, previousScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * 0.88, currentScreenPoint.y,
-//             currentScreenPoint.x + currentScreenPoint.w * 0.91, currentScreenPoint.y,
-//           );
-
-//           // center faixa
-//           const value = 0.02;
-//           render.drawTrapezium(
-//             previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
-//             currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
-//             cores.faixa,
-//           );
-//         }
-
-//         //checkered estrada
-//         if (cores.checkers === 'one') {
-//           for (let i = -1; i < 0.9; i += 2 / 3) {
-//             render.drawPolygon(
-//               'black',
-//               previousScreenPoint.x + previousScreenPoint.w * i, previousScreenPoint.y,
-//               previousScreenPoint.x + previousScreenPoint.w * (i + 1 / 3), previousScreenPoint.y,
-//               currentScreenPoint.x + currentScreenPoint.w * (i + 1 / 3), currentScreenPoint.y,
-//               currentScreenPoint.x + currentScreenPoint.w * i, currentScreenPoint.y,
-//             );
-//           };
-//         }
-//         if (cores.checkers === 'two') {
-//           for (let i = -2 / 3; i < 0.9; i += 2 / 3) {
-//             render.drawPolygon(
-//               'black',
-//               previousScreenPoint.x + previousScreenPoint.w * i, previousScreenPoint.y,
-//               previousScreenPoint.x + previousScreenPoint.w * (i + 1 / 3), previousScreenPoint.y,
-//               currentScreenPoint.x + currentScreenPoint.w * (i + 1 / 3), currentScreenPoint.y,
-//               currentScreenPoint.x + currentScreenPoint.w * i, currentScreenPoint.y,
-//             );
-//           };
-//         }
-//       }
-
-//       maxY = currentScreenPoint.y;
-//     }
-//     for (let i = (this.visibleSegments + startPos) - 1; i >= startPos; i -= 1) {
-//       this.getSegmentFromIndex(i)
-//         .drawSprite(render, camera, jogador);
-//     }
-//   }
-// }
 
 export default Estrada;

@@ -1,3 +1,5 @@
+
+
 class Render {
 
     /**
@@ -24,28 +26,28 @@ class Render {
 
     drawTrapezium(x1, y1, w1, x2, y2, w2, cor = 'green') {
 
-        // this.drawPolygon(cor, x1- w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);
+        this.drawPolygon(cor, x1- w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);
     }
 
     drawPolygon(cor, ...coords) {
 
-        // if (coords.length > 1) {
+        if (coords.length > 1) {
             
-        //     const { ctx } = this;
-        //     ctx.save();
-        //     ctx.fillStyle = cor;
-        //     ctx.beginPath();
-        //     ctx.moveTo(coords[0], coords[1]);
+            const { ctx } = this;
+            ctx.save();
+            ctx.fillStyle = cor;
+            ctx.beginPath();
+            ctx.moveTo(coords[0], coords[1]);
 
-        //     for(let i = 2; i < coords.length; i += 2) {
+            for(let i = 2; i < coords.length; i += 2) {
 
-        //         ctx.lineTo(coords[i], coords[(i + 1) % coords.length]);
-        //     }
+                ctx.lineTo(coords[i], coords[(i + 1) % coords.length]);
+            }
 
-        //     ctx.closePath();
-        //     ctx.fill();
-        //     ctx.restore();
-        // }
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
     }
 
     desenharTexto(cor, texto, telaX = 300, telaY = 200, fontSize = '2',
@@ -73,10 +75,12 @@ class Render {
    *
    * @param {Sprite} sprite
    * @param {Camera} camera
+   * @param {Jogador} jogador
    * @param {Number} estradaLargura
+   * @param {Number} escala
    * @param {Number} destX
    * @param {Number} destY
-   * @param {Number} escala
+   * @param {Number} clip
    */
     drawSprite(sprite, camera, jogador, estradaLargura, escala,
         destX, destY, clip, spritesInX = 1, spritesInY = 1 ) {
@@ -87,23 +91,23 @@ class Render {
         const spriteWidth = sprite.width;
         const spriteHeight = sprite.height;
         const fator = 1 / 3;
-        const offsetY = sprite.offsetY || 1;
+        const deslocamentoY = sprite.deslocamentoY || 1;
 
         const {
             posicaoFolhaX, posicaoFolhaY, escalaX, escalaY
         } = sprite;
 
-        // const destWidth = (spriteHeight * escala * meioTela.x) *
-        //     (((estradaLargura * escalaX) / (jogador.width ?? 64)) * fator);
+        const destWidth = (spriteWidth * escala * meioTela.x) *
+            (((estradaLargura * escalaX) / (jogador.width ?? 64)) * fator);
 
-        const destWidth = 1280;
+        // const destWidth = 1280;
 
         const destHeight = (spriteHeight * escala * meioTela.x) *
             (((estradaLargura * escalaY) / (jogador.width ?? 64)) * fator);
 
 
         novoDestX += -destWidth * 0.5;
-        novoDestY -= (destHeight * spritesInX * offsetY) / spritesInY;
+        novoDestY -= (destHeight * spritesInX * deslocamentoY) / spritesInY;
 
         const clipHeight = clip ? Math.max(0, (novoDestY + destHeight - clip)) : 0;
 

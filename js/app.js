@@ -30,7 +30,7 @@ const loop = (
   camera, 
   jogador, 
   estrada, 
-  tf, 
+  telaFundo, 
   diretor, 
   menu, 
   width, 
@@ -51,8 +51,8 @@ const loop = (
     diretorParam.tempoReal = tempoAgora;
     diretorParam.tempoDesdeAUltimaTrocaFrame += tempoDecorrido;
 
-    tf.update(jogadorParam, cameraParam, estrada, diretorParam);
-    tf.render(render, cameraParam, jogadorParam, estrada.width);     
+    // telaFundo.update(jogadorParam, cameraParam, estrada, diretorParam);
+    telaFundo.render(render, cameraParam, jogadorParam, estrada.width);     
     estrada.render(render, cameraParam, jogadorParam);
 
     render.restore();
@@ -91,7 +91,7 @@ const loop = (
     cameraParam, 
     jogadorParam, 
     estrada, 
-    tf, 
+    telaFundo, 
     diretorParam, 
     menu, 
     width, 

@@ -6,8 +6,8 @@ class Sprite {
      */
     constructor() {
       this.imagem = {};
-      this.offsetX = 0;
-      this.offsetY = 0;
+      this.deslocamentoX = 0;
+      this.deslocamentoY = 0;
       this.posicaoFolhaX = 0;
       this.posicaoFolhaY = 0;
       this.escalaX = 1;
