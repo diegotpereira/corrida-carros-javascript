@@ -64,8 +64,10 @@ const loop = (
     diretorParam.tempoReal = tempoAgora;
     diretorParam.tempoDesdeAUltimaTrocaFrame += tempoDecorrido;
 
+    jogadorParam.update(cameraParam, estrada, diretorParam);
+
     // Atualiza a posição dos elementos em cena
-    // telaFundo.update(jogadorParam, cameraParam, estrada, diretorParam);
+    telaFundo.update(jogadorParam, cameraParam, estrada, diretorParam);
 
     // Renderiza os elementos na tela
     telaFundo.render(render, cameraParam, jogadorParam, estrada.width);     

@@ -12,6 +12,7 @@ class Diretor {
         this.temposTotaisVolta = [];
         this.tempoVoltas = [];
         this.luzesLargada =  new Sprite();
+        this.correndo = true;
     }
 
     // create() {}

@@ -44,11 +44,11 @@ class HandleInput {
       } else if (event.type === 'keyup' || event.type === 'keydown') {
 
         // // Obtém a tecla pressionada em letras minúsculas
-        // const key = event.key.toLowerCase();
+        const key = event.key.toLowerCase();
 
         // // Define o estado da tecla no objeto 'map' para indicar se 
         // // ela está pressionada ou não
-        // this.map[key] = event.type === 'keydown';
+        this.map[key] = event.type === 'keydown';
       }
 
       // // Verifica se o evento é do tipo 'touchstart' ou 'touchend' e a tecla não é 'p'
@@ -69,6 +69,11 @@ class HandleInput {
       // if (event.target.name === 'p' && event.type === 'touchend') {
       //   this.mapPress.p = !this.mapPress.p;
       // }
+    }
+
+    ehTeclaParaBaixo(key) {
+
+      return Boolean(this.map[key.toLowerCase()]);
     }
   }
   
