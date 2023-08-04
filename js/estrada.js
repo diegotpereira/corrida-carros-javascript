@@ -1,6 +1,6 @@
 import SegmentoLinha from "./segmentoLinha.js";
 import Sprite from "./sprite.js";
-import { pistas } from "./util.js"
+import { pistas, recurso } from "./util.js"
 
 class Estrada {
 
@@ -146,19 +146,35 @@ class Estrada {
             // Adiciona o segmento à lista de segmentos
             this.#segmentos.push(segmentoLinha);
 
-            // // Função interna para criar curvas no segmento
-            // const criarCurva = (min, max, curva, guia) => {
+            // Função interna para criar curvas no segmento
+            const criarCurva = (min, max, curva, guia) => {
 
-            //     if (i >= min && i <= max) {
+                if (i >= min && i <= max) {
                     
-            //         segmentoLinha.curva = curva;
-            //         segmentoLinha.guia = guia;
-            //     }
-            // };
+                    segmentoLinha.curva = curva;
+                    segmentoLinha.guia = guia;
+                }
+            };
 
-            // // Loop para criar curvas no segmento com base nas informações da pista
-            // pistas[this.pistaNome].curvas
-            //     .forEach((curva) => criarCurva(curva.min, curva.max, curva.inclinacaoCurva, curva.guia));
+            // Loop para criar curvas no segmento com base nas informações da pista
+            pistas[this.pistaNome].curvas
+                .forEach((curva) => criarCurva(curva.min, curva.max, curva.inclinacaoCurva, curva.guia));
+
+            // adicionando lombada
+            const { curva: forcaCurva, guia } = this.getSegmentoDoIndice(i);
+
+            if(i % (k * 2) === 0 && Math.abs(forcaCurva) > 1 && guia) {
+
+                const sinalizacaoCurva = new Sprite();
+
+                sinalizacaoCurva.offsetX = forcaCurva > 0 ? -1.5 : 1.5;
+                sinalizacaoCurva.escalaX = 72;
+                sinalizacaoCurva.escalaY = 72;
+                sinalizacaoCurva.imagem = recurso.get(forcaCurva > 0 ? 'sinalEsquerdo' : 'sinalDireito');
+                sinalizacaoCurva.nome = 'tsCurveSignal';
+
+                segmentoLinha.sprites.push(sinalizacaoCurva);
+            }
             
         }
     }

@@ -49,6 +49,7 @@ class HandleInput {
         // // Define o estado da tecla no objeto 'map' para indicar se 
         // // ela está pressionada ou não
         this.map[key] = event.type === 'keydown';
+        
       }
 
       // // Verifica se o evento é do tipo 'touchstart' ou 'touchend' e a tecla não é 'p'

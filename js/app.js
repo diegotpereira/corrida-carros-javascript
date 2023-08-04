@@ -1,4 +1,4 @@
-import { canvas, pistas, posicaoInicial, recurso } from './util.js';
+import { canvas, handleInput, pistas, posicaoInicial, recurso } from './util.js';
 import Render from './render.js';
 import TelaFundo from './telafundo.js';
 import Estrada from './estrada.js';
@@ -20,6 +20,66 @@ window.onload = () => {
     0.5625 * window.innerWidth
   );
 };
+
+let atualValor = 0;
+
+const animacaoPneu = (jogador, spriteNum, velocidade) => {
+
+  const jogadorAnim = jogador;
+
+  if (velocidade) {
+    
+    jogadorAnim.sprite.posicaoFolhaX = spriteNum;
+    jogadorAnim.sprite.posicaoFolhaY = Number(!jogadorAnim.sprite.posicaoFolhaY);
+
+  } else {
+
+    jogadorAnim.sprite.posicaoFolhaX = spriteNum;
+  }
+}
+const buscarDirecao = () => {
+
+  const { arrowleft, arrowright } = handleInput.map;
+
+  if(arrowleft) return 'Left';
+  if(arrowright) return 'Right';
+
+  return 'Center';
+}
+const curvaAnim = (jogador, velocidade) => {
+
+  const jogadorAnim = jogador;
+  const { arrowleft, arrowright } = handleInput.map;
+  const atualImagem = jogadorAnim.sprite.imagem;
+  const atualSeta = atualImagem.src.match(/player\w+/g, '')[0].slice(6);
+  const teclaPressionada = buscarDirecao();
+
+  if ((!arrowleft && !arrowright) && atualValor >= 0) {
+    
+    atualValor = atualValor > 0 ? atualValor -= 1 : 0;
+    animacaoPneu(jogador, atualValor, velocidade);
+  }
+  
+  if (arrowleft || arrowright) {
+    
+    if (teclaPressionada === atualSeta) {
+      
+      atualValor = atualValor < 5 ? atualValor += 1 : 5;
+      animacaoPneu(jogador, atualValor, velocidade);
+
+    } else if (teclaPressionada !== atualSeta && atualValor > 0) {
+
+      animacaoPneu(jogador, atualValor, velocidade);
+      atualValor = atualValor > 0 ? atualValor -= 1 : 0;
+      
+    } else if (teclaPressionada !== atualSeta && atualValor === 0) {
+      
+      atualValor = 1;
+      jogadorAnim.sprite.imagem = recurso.get(`player${teclaPressionada}`);
+      animacaoPneu(jogador, atualValor, velocidade);
+    }
+  }
+}
 
 /**
  * Função responsável pelo loop principal do jogo
@@ -63,6 +123,14 @@ const loop = (
 
     diretorParam.tempoReal = tempoAgora;
     diretorParam.tempoDesdeAUltimaTrocaFrame += tempoDecorrido;
+
+    // if (diretorParam.tempoDesdeAUltimaTrocaFrame > jogador.horaAtualizacaoAnimacao && diretorParam.pausado) {
+      
+    //   curvaAnim(jogadorParam, jogadorParam.correnteDeEnergia);
+    //   diretorParam.tempoDesdeAUltimaTrocaFrame = 0;
+    // }
+
+    curvaAnim(jogadorParam, jogadorParam.correnteDeEnergia);
 
     jogadorParam.update(cameraParam, estrada, diretorParam);
 
@@ -165,6 +233,10 @@ recurso
   .add('skyDark', './img/tela_fundo/skyDark.png')
   .add('hill', './img/tela_fundo/hill.png')
   .add('tree', './img/tela_fundo/tree.png')
+  .add('playerLeft', './img/jogador/playerLeft.png')
+  .add('playerRight', './img/jogador/playerRight.png')
+  .add('sinalDireito', './img/outro/rightSignal.png')
+  .add('sinalEsquerdo', './img/outro/leftSignal.png')
   .add('playerLeft', './img/jogador/playerLeft.png')
   .add('playerRight', './img/jogador/playerRight.png')
   .carregarImagem(() => requestAnimationFrame(() => init()));
