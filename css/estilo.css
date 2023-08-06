@@ -33,27 +33,45 @@
     src: url(/fontes/computo.ttf);
 } */
 
-/* html,
+/* Aplica estilo ao elemento HTML e ao corpo da página. */
+html,
 body {
+    /* Define um fundo preto (#000000) para o corpo da página. */
     background: #000000;
+    /* Define a família de fontes a ser usada, com fallbacks para diferentes sistemas. */
     font-family: Joystix, Verdana, Geneva, sans-serif;
-    height: 100vh;
-    position: relative;
+    /* Define a altura da viewport (altura visível da janela) como 100% da altura do dispositivo. */
+    /* height: 100vh; */
+    /* Define a posição como relativa em relação ao elemento pai. */
+    /* position: relative; */
+    /* Esconde a barra de rolagem, se necessário, para evitar rolagem horizontal. */
     overflow: hidden;
-    width: 100vw;
-} */
+    /* Define a largura da viewport (largura visível da janela) como 100% da largura do dispositivo. */
+    /* width: 100vw; */
+}
 
+/* Define as propriedades do contêiner. */
 .container {
-
+    /* Define a posição como relativa em relação ao elemento pai. */
     position: relative;
+    /* Centraliza horizontalmente o elemento no centro da página 
+        (auto significa que as margens laterais são automáticas). */
     margin: 0 auto;
 }
 
+/* Aplica estilo ao elemento canvas. */
 canvas {
+    /* Define a altura do elemento canvas como 100% da altura do elemento pai (contêiner). */
     height: 100%;
+    /* Define a largura do elemento canvas como 100% da largura do elemento pai (contêiner). */
     width: 100%;
+    /* Define um fundo de cor creme (#FAF6F2) para o elemento canvas. */
     background: #FAF6F2;
+
 }
+
+
+
 
 /* #info, #controleToques {
 
