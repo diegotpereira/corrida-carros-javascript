@@ -160,22 +160,37 @@ class Estrada {
             pistas[this.pistaNome].curvas
                 .forEach((curva) => criarCurva(curva.min, curva.max, curva.inclinacaoCurva, curva.guia));
 
-            // adicionando lombada
+            // renderização da sinalização de curva
+            // Desestruturação do objeto retornado pela função getSegmentoDoIndice(i)
             const { curva: forcaCurva, guia } = this.getSegmentoDoIndice(i);
 
+            // Verifica se i é um múltiplo de k * 2 e se o valor absoluto 
+            // de forcaCurva é maior que 1, e se guia é verdadeiro
             if(i % (k * 2) === 0 && Math.abs(forcaCurva) > 1 && guia) {
 
+                // Criação de uma nova instância do 
+                // objeto Sprite para sinalização de curva
                 const sinalizacaoCurva = new Sprite();
 
-                sinalizacaoCurva.offsetX = forcaCurva > 0 ? -1.5 : 1.5;
-                sinalizacaoCurva.escalaX = 72;
-                sinalizacaoCurva.escalaY = 72;
-                sinalizacaoCurva.imagem = recurso.get(forcaCurva > 0 ? 'sinalEsquerdo' : 'sinalDireito');
-                sinalizacaoCurva.nome = 'tsCurveSignal';
+                // Define o deslocamento horizontal da sinalização com 
+                // base no valor de forcaCurva
+                sinalizacaoCurva.deslocamentoX = forcaCurva > 0 ? -1.5 : 1.5;
 
+                // Define a escala horizontal da sinalização
+                sinalizacaoCurva.escalaX = 72;
+
+                // Define a escala vertical da sinalização
+                sinalizacaoCurva.escalaY = 72;
+
+                // Define a imagem da sinalização com base na direção da curva
+                sinalizacaoCurva.imagem = recurso.get(forcaCurva > 0 ? 'sinalEsquerdo' : 'sinalDireito');
+
+                // Define o nome da sinalização
+                sinalizacaoCurva.name = 'tsCurveSignal';
+
+                // Adiciona a sinalização de curva ao array de sprites do segmentoLinha
                 segmentoLinha.sprites.push(sinalizacaoCurva);
             }
-            
         }
     }
 
@@ -292,22 +307,22 @@ class Estrada {
                     // Desenha as guias laterais à esquerda
                     render.drawPolygon(
 
-                        // cores.guia,
-                        // anteriorSegmentoTela.x - anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
-                        // anteriorSegmentoTela.x - anteriorSegmentoTela.w, anteriorSegmentoTela.y,
-                        // atualSegmentoTela.x - atualSegmentoTela.w, atualSegmentoTela.y,
-                        // atualSegmentoTela.x - atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
+                        cores.guia,
+                        anteriorSegmentoTela.x - anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
+                        anteriorSegmentoTela.x - anteriorSegmentoTela.w, anteriorSegmentoTela.y,
+                        atualSegmentoTela.x - atualSegmentoTela.w, atualSegmentoTela.y,
+                        atualSegmentoTela.x - atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
 
                     );
 
                     // Desenha as guias laterais à direita da estrada
                     render.drawPolygon(
 
-                        // cores.guia,
-                        // anteriorSegmentoTela.x + anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
-                        // anteriorSegmentoTela.x + anteriorSegmentoTela.w, anteriorSegmentoTela.y,
-                        // atualSegmentoTela.x + atualSegmentoTela.w, atualSegmentoTela.y,
-                        // atualSegmentoTela.x + atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
+                        cores.guia,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w * 1.3, anteriorSegmentoTela.y,
+                        anteriorSegmentoTela.x + anteriorSegmentoTela.w, anteriorSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w, atualSegmentoTela.y,
+                        atualSegmentoTela.x + atualSegmentoTela.w * 1.3, atualSegmentoTela.y,
                     )
                 }
 
@@ -394,10 +409,8 @@ class Estrada {
                             // anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
                             // atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
                             // atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
-                        );
-                        
+                        );   
                     }
-                    
                 }
             }
 
@@ -409,8 +422,8 @@ class Estrada {
         for (let i = (this.visibilidadeSegmentos + inicialPos) - 1; i >= inicialPos; i -= 1) {
             
             // Obtém o segmento de linha atual com base no índice do loop
-            // this.getSegmentoDoIndice(i)
-            // .drawSprite(render, camera, jogador);
+            this.getSegmentoDoIndice(i)
+            .drawSprite(render, camera, jogador);
 
             
         }
