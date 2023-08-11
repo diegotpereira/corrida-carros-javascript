@@ -137,10 +137,13 @@ const loop = (
     // Atualiza a posição dos elementos em cena
     telaFundo.update(jogadorParam, cameraParam, estrada, diretorParam);
 
+    diretorParam.update(jogadorParam);
+
     // Renderiza os elementos na tela
     telaFundo.render(render, cameraParam, jogadorParam, estrada.width);     
     estrada.render(render, cameraParam, jogadorParam);
     jogadorParam.render(render, cameraParam, estrada.width, diretorParam);
+    diretorParam.render(render, jogadorParam)
 
     // Restaura o estado anterior do contexto de renderização
     render.restore();
@@ -239,4 +242,6 @@ recurso
   .add('sinalEsquerdo', './img/outro/leftSignal.png')
   .add('playerLeft', './img/jogador/playerLeft.png')
   .add('playerRight', './img/jogador/playerRight.png')
+  .add('luzesLargada', './img/outro/startLights.png')
+  .add('barraLinhaLateral', './img/outro/startLightsBar.png')
   .carregarImagem(() => requestAnimationFrame(() => init()));

@@ -384,13 +384,13 @@ class Estrada {
 
                     for (let i = -1; i < 0.9; i += 2 / 3) {
                         
-                        // Desenha os quadriculados na pista
+                        // Desenha os quadriculados da linha de largada na pista
                         render.drawPolygon(
-                            // 'black',
-                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
-                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
-                            // atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
-                            // atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
+                            'black',
+                            anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
+                            anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
+                            atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
+                            atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
                         );
                         
                     }
@@ -402,13 +402,13 @@ class Estrada {
 
                     for (let i = -2 / 3; i < 0.9; i += 2 / 3) {
                         
-                        // Desenha os quadriculados na pista 
+                        // Desenha os quadriculados da linha de largada na pista 
                         render.drawPolygon(
-                            // 'black',
-                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
-                            // anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
-                            // atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
-                            // atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
+                            'black',
+                            anteriorSegmentoTela.x + anteriorSegmentoTela.w * i, anteriorSegmentoTela.y,
+                            anteriorSegmentoTela.x + anteriorSegmentoTela.w * (i + 1 / 3), anteriorSegmentoTela.y,
+                            atualSegmentoTela.x + atualSegmentoTela.w * (i + 1 / 3), atualSegmentoTela.y,
+                            atualSegmentoTela.x + atualSegmentoTela.w * i, atualSegmentoTela.y
                         );   
                     }
                 }

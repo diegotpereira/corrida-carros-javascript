@@ -68,6 +68,9 @@ class Camera {
         // Verifica se a posição da câmera é maior ou igual ao comprimento da estrada
         if (this.cursor >= length) {
 
+
+            diretor.animaTempo = 0;
+
             // Incrementa o contador de voltas do diretor
             diretor.volta += 1;
 
@@ -93,4 +96,5 @@ class Camera {
     }
 }
 
+// Exporta a classe Camera para uso em outros módulos
 export default Camera;
