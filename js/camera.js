@@ -69,6 +69,8 @@ class Camera {
         if (this.cursor >= length) {
 
 
+            diretor.temposTotaisVolta.push(diretor.animaTempo);
+            
             diretor.animaTempo = 0;
 
             // Incrementa o contador de voltas do diretor

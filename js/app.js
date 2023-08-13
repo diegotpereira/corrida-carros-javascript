@@ -140,9 +140,12 @@ const loop = (
     diretorParam.update(jogadorParam);
 
     // Renderiza os elementos na tela
-    telaFundo.render(render, cameraParam, jogadorParam, estrada.width);     
+    telaFundo.render(render, cameraParam, jogadorParam, estrada.width);    
+
     estrada.render(render, cameraParam, jogadorParam);
+
     jogadorParam.render(render, cameraParam, estrada.width, diretorParam);
+    
     diretorParam.render(render, jogadorParam)
 
     // Restaura o estado anterior do contexto de renderização

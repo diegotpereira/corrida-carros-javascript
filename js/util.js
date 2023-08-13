@@ -106,6 +106,25 @@ const pistas = {
     }
 }
 
+// Função para formatar o tempo em milissegundos para uma string no formato de tempo
+const formatarHora = (dt) => {
+
+    // Arredonda o tempo total para o número inteiro mais próximo
+    const hora = Math.round(dt);
+
+    // Calcula a quantidade de minutos
+    const minutos = Math.floor(hora / 60000);
+
+    // Calcula a quantidade de segundos
+    const segundos = Math.floor(hora / 1000) - (minutos * 60);
+
+    // Extrai os últimos 3 dígitos para obter os decimos de segundo
+    const decimos = hora.toString().slice(-3);
+
+    // Retorna a string formatada no formato 'minutos:segundos.decimos'
+    return `${minutos}:${(segundos < 10 ? '0' : '')}${segundos}.${hora < 100 ? '000' : decimos}`;
+}
+
 // Exporta as variáveis e a função para serem utilizadas em outros módulos
 export {
 
@@ -114,5 +133,6 @@ export {
     canvas,
     theta,
     posicaoInicial,
-    pistas
+    pistas,
+    formatarHora
 }
