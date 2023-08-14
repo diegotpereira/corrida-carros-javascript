@@ -56,6 +56,16 @@ class Render {
         }
     }
 
+    desenharCirculo(x, y, radius, anguloInicial, anguloFinal, antiHorario, cor = 'black') {
+
+        const { ctx } = this;
+
+        ctx.beginPath();
+        ctx.strokeStyle = cor;
+        ctx.arc(x, y, radius, anguloInicial, anguloFinal, antiHorario);
+        ctx.stroke();
+      }
+
     // Desenha texto na tela com várias opções de formatação
     desenharTexto(cor, texto, telaX = 300, telaY = 200, fontSize = '2',
         font = 'OutriderCond', align = 'center', colorStroke = 'black', stroke = false) {
@@ -108,8 +118,6 @@ class Render {
 
         const destWidth = (spriteWidth * escala * meioTela.x) *
             (((estradaLargura * escalaX) / (jogador.width ?? 64)) * fator);
-
-        // const destWidth = 1280;
 
         const destHeight = (spriteHeight * escala * meioTela.x) *
             (((estradaLargura * escalaY) / (jogador.width ?? 64)) * fator);

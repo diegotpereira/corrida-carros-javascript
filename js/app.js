@@ -6,6 +6,7 @@ import Menu from './menu.js'
 import Camera from './camera.js';
 import Jogador from './jogador.js';
 import Diretor from './diretor.js';
+import Tacometro from './tacometro.js';
 
 // Evento executado quando a janela é carregada
 window.onload = () => {
@@ -99,7 +100,8 @@ const loop = (
   estrada, 
   telaFundo, 
   diretor, 
-  menu, 
+  menu,
+  tacometro,
   width, 
   height ) => {
 
@@ -139,6 +141,8 @@ const loop = (
 
     diretorParam.update(jogadorParam);
 
+    tacometro.update(jogadorParam, diretorParam);
+
     // Renderiza os elementos na tela
     telaFundo.render(render, cameraParam, jogadorParam, estrada.width);    
 
@@ -147,6 +151,8 @@ const loop = (
     jogadorParam.render(render, cameraParam, estrada.width, diretorParam);
     
     diretorParam.render(render, jogadorParam)
+
+    tacometro.render(render);
 
     // Restaura o estado anterior do contexto de renderização
     render.restore();
@@ -201,6 +207,7 @@ const loop = (
     telaFundo, 
     diretorParam, 
     menu, 
+    tacometro,
     width, 
     height
   ));
@@ -226,11 +233,13 @@ const init = () => {
   // Cria uma nova instância da classe Menu para representar o menu do jogo
   const menu = new Menu(width, height);
 
+  const tacometro = new Tacometro();
+
   // Inicializa o cenário de fundo do jogo
   telaFundo.create();
   
   // Inicia o loop principal do jogo
-  loop(render, camera, jogador, estrada, telaFundo, diretor, menu, width, height);
+  loop(render, camera, jogador, estrada, telaFundo, diretor, menu, tacometro, width, height);
 };
 
 // Carrega as imagens necessárias para o jogo usando o recurso e inicia o jogo após o carregamento

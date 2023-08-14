@@ -125,6 +125,22 @@ const formatarHora = (dt) => {
     return `${minutos}:${(segundos < 10 ? '0' : '')}${segundos}.${hora < 100 ? '000' : decimos}`;
 }
 
+// Função para converter velocidade em graus, considerando valores mínimo e máximo de ângulos
+const velocidadeEmGraus = (velocidade, maxVelocidade, anguloInicial, anguloFinal) => {
+
+    // Calcula a amplitude total do ângulo
+    const angulo = anguloFinal - anguloInicial;
+
+    // Calcula a relação da velocidade em relação à velocidade máxima
+    const relacaoVelocidade = velocidade / maxVelocidade;
+
+    // Calcula o ângulo resultante considerando a relação da velocidade
+    return -30 + relacaoVelocidade * angulo;
+};
+
+// Função para converter graus em radianos
+const grausEmRadiano = (angulo) => ((angulo * Math.PI) / 180);
+
 // Exporta as variáveis e a função para serem utilizadas em outros módulos
 export {
 
@@ -134,5 +150,7 @@ export {
     theta,
     posicaoInicial,
     pistas,
-    formatarHora
+    formatarHora,
+    velocidadeEmGraus,
+    grausEmRadiano
 }
