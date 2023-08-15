@@ -100,6 +100,8 @@ class Diretor {
 
         this.ultimaVolta = this.tempoVoltas[this.volta - 2] ? this.tempoVoltas[this.volta - 2] : 0;
 
+        this.voltaRapida = this.tempoVoltas.length ? Math.min.apply(null, this.tempoVoltas) : 0;
+
         // Define a posição da folha de sprite das luzes de largada com base no tempo da animação
         if(this.animaTempo > this.iniciarTempo) this.luzesLargada.posicaoFolhaX = 0;
         else if(this.animaTempo > 2000 + 2500) this.luzesLargada.posicaoFolhaX = 5;

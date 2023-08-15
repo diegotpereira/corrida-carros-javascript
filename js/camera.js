@@ -82,7 +82,7 @@ class Camera {
                 // Obtém o tempo da última volta e o adiciona à lista de últimas voltas completadas
                 const ultimaVolta = diretor.temposTotaisVolta[diretor.volta - 1];
 
-                diretor.ultimaVolta.push(ultimaVolta);
+                diretor.tempoVoltas.push(ultimaVolta);
                 
             }
 
