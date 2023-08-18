@@ -82,23 +82,41 @@ class Tacometro {
 
     }
 
+    // Define um método estático para desenhar texto em um gráfico, 
+    // com base nas opções fornecidas e na função de renderização especificada.
     static desenharTexto(opcoes, render) {
 
+        // Extrai as propriedades x, y e radius do objeto "opcoes".
         const { x, y, radius } = opcoes;
 
+        // Loop para iterar por diferentes ângulos no intervalo de -30 a 210, 
+        // incrementando em 40 a cada iteração.
         for (let index = -30, compare = 0; index <= 210; index += 40) {
             
+            // Incrementa o valor de "compare" a cada iteração.
             compare += 1;
+
+            // Converte o ângulo de graus para radianos.
             const iRad = grausEmRadiano(index);
+
+            // Calcula a posição no eixo X ao longo do arco do círculo.
             const noArcoX = radius - (Math.cos(iRad) * (radius - 19 - (compare * 0.8)));
+
+            // Define um ajuste para a posição no eixo Y com base na condição. 
+            // Subtrai 1 do ajuste quando "compare" não é igual a 4.
             const iFix = compare !== 4 ? 4 : -1;
+
+            // Calcula a posição no eixo Y ao longo do arco do círculo.
             const noArcoY = radius - (Math.sin(iRad) * (radius - 15 - iFix));
 
+            // Calcula as coordenadas absolutas X e Y para desenhar o texto.
             const deX = x - radius + noArcoX;
             const deY = y - radius + noArcoY;
 
+            // Calcula a velocidade com base no índice e em um fator de ajuste.
             const velocidade = 10 + index + 20 * compare;
 
+            // Chama a função de renderização para desenhar o texto com as configurações especificadas.
             render.desenharTexto('#000', velocidade, deX, deY, 0.75, 'OutRiderCond', 'center', '#000', false);
             
         }

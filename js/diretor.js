@@ -98,8 +98,14 @@ class Diretor {
         // Atualiza o tempo da animação com base no tempo real
         this.animaTempo += (1 / 60) * 1000 * this.pausado;
 
+        // Define a propriedade "ultimaVolta" com o valor da penúltima volta registrada, 
+        // se existir, 
+        // caso contrário, define como 0.
         this.ultimaVolta = this.tempoVoltas[this.volta - 2] ? this.tempoVoltas[this.volta - 2] : 0;
 
+        // Calcula a volta mais rápida. Se houver voltas registradas, 
+        // encontra o menor valor presente na matriz "tempoVoltas". 
+        // Caso contrário, define como 0.
         this.voltaRapida = this.tempoVoltas.length ? Math.min.apply(null, this.tempoVoltas) : 0;
 
         // Define a posição da folha de sprite das luzes de largada com base no tempo da animação
