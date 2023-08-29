@@ -33,7 +33,7 @@ class Tacometro {
     // Método para desenhar a agulha do Tacômetro
     desenharAgulha(opcoes) {
 
-        
+        // Desestruturando as opções para obter os valores necessários
         const  { ctx, x, y, radius } = opcoes;
 
         // Calcula o ângulo da agulha com base na corrente de energia
@@ -82,6 +82,184 @@ class Tacometro {
 
     }
 
+    // Definindo uma função estática para desenhar um mostrador com agulha, 
+    // recebendo as opções como parâmetro
+    static desenharMostradorAgulha(opcoes) {
+
+        // Desestruturando as opções para obter os valores necessários
+        const { ctx, x, y, radius } = opcoes;
+
+        // Definindo as cores para a agulha e o fundo
+        const sCor = 'rgb(127, 127, 127)'; // Cor da agulha
+        const fCor = 'rgb(255, 255, 255)'; // Cor do fundo
+
+        // Loop para desenhar oito elementos do mostrador
+        for (let index = 0; index < 8; index += 1) {
+            
+            // Salvando o contexto atual do canvas
+            ctx.save();
+
+            // Definindo a largura da linha
+            ctx.lineWidth = 3;
+
+            // Iniciando um novo caminho de desenho
+            ctx.beginPath();
+
+            // Definindo a cor da linha da agulha
+            ctx.strokeStyle = sCor;
+
+            // Definindo a cor de preenchimento do desenho
+            ctx.fillStyle = fCor;
+
+            // Desenhando um arco
+            ctx.arc(x, y, index, 15, Math.PI, true)
+
+            // Preenchendo o desenho com a cor de preenchimento definida
+            ctx.fill();
+
+            // Desenhando a linha do contorno
+            ctx.stroke();
+
+            // Restaurando o contexto para seu estado anterior
+            ctx.restore();
+            
+        }
+    }
+
+    // Definindo uma função estática para desenhar o arco metálico externo do tacômetro, 
+    // recebendo as opções como parâmetro
+    static desenharArcoMetalicoExterno(opcoes) {
+
+        // Desestruturando as opções para obter os valores necessários
+        const { ctx, x, y, radius, arcY } = opcoes;
+
+        // Salvando o contexto atual do canvas
+        ctx.save();
+
+        // Configurando a transparência global do contexto para 0.75 (75% opaco)
+        ctx.globalAlpha = 0.75;
+
+        // Iniciando um novo caminho de desenho
+        ctx.beginPath();
+
+        // Definindo a cor de preenchimento como cinza escuro
+        ctx.fillStyle = 'rgb(63, 63, 63)';
+
+        // Desenhando um arco no canvas com centro em (x, y), 
+        // raio "radius", começando no ângulo "arcY" e indo 
+        // até Math.PI (180 graus) no sentido anti-horário
+        ctx.arc(x, y, radius, arcY, Math.PI, true);
+
+        // Preenchendo o arco com a cor definida
+        ctx.fill();
+
+        // Restaurando o contexto para seu estado anterior
+        ctx.restore();
+    }
+
+    // Definindo uma função estática para desenhar as marcas no mostrador
+    static desenharMarcas(opcoes) {
+
+        // Desestruturando as opções para obter os valores necessários
+        const { ctx, x, y, radius } = opcoes;
+
+        // Loop para desenhar as marcas internas brancas
+        for (let index = -30; index <= 210; index += 40) {
+            
+             // Convertendo graus em radianos
+            const iRad = grausEmRadiano(index);
+
+            // Calculando as coordenadas no arco interno
+            const noArcoX = radius - (Math.cos(iRad) * (radius - 10));
+            const noArcoY = radius - (Math.sin(iRad) * (radius - 10));
+
+            // Calculando as coordenadas no arco externo
+            const externoX = radius - (Math.cos(iRad) * radius);
+            const externoY = radius - (Math.sin(iRad) * radius);
+
+            // Calculando as coordenadas de início (doX, doY) ajustadas ao centro do mostrador
+            const doX = x - radius + noArcoX;
+            const doY = y - radius + noArcoY;
+
+            // Calculando as coordenadas de término (paraX, paraY) ajustadas ao centro do mostrador
+            const paraX = x - radius + externoX;
+            const paraY = y - radius + externoY;
+
+            // Salvando o contexto atual do canvas
+            ctx.save();
+
+            // Iniciando um novo caminho de desenho
+            ctx.beginPath();
+
+            // Definindo a cor da linha como branca
+            ctx.strokeStyle = '#FFFFFF';
+
+            // Definindo a largura da linha
+            ctx.lineWidth = 1.5;
+
+            // Movendo-se para a coordenada de início
+            ctx.moveTo(doX, doY);
+
+            // Desenhando uma linha até a coordenada de término
+            ctx.lineTo(paraX, paraY);
+
+            // Desenhando a linha no canvas
+            ctx.stroke();
+
+            // Restaurando o contexto para seu estado anterior
+            ctx.restore();
+  
+        }
+
+        // Loop para desenhar as marcas externas pretas
+        for (let index = -30; index <= 210; index += 40) {
+            
+            // Convertendo graus em radianos
+            const iRad = grausEmRadiano(index);
+
+            // Calculando as coordenadas no arco interno
+            const noArcoX = radius - (Math.cos(iRad) * (radius - 5));
+            const noArcoY = radius - (Math.sin(iRad) * (radius - 5));
+
+            // Calculando as coordenadas no arco externo
+            const externoX = radius - (Math.cos(iRad) * radius);
+            const externoY = radius - (Math.sin(iRad) * radius);
+
+            // Calculando as coordenadas de início (doX, doY) ajustadas ao centro do mostrador
+            const doX = x - radius + noArcoX;
+            const doY = y - radius + noArcoY;
+
+            // Calculando as coordenadas de término (paraX, paraY) ajustadas ao centro do mostrador
+            const paraX = x - radius + externoX;
+            const paraY = y - radius + externoY;
+
+            // Salvando o contexto atual do canvas
+            ctx.save();
+
+            // Iniciando um novo caminho de desenho
+            ctx.beginPath();
+
+            // Definindo a cor da linha como preta
+            ctx.strokeStyle = '#000000';
+
+            // Definindo a largura da linha
+            ctx.lineWidth = 1.5;
+
+            // Movendo-se para a coordenada de início
+            ctx.moveTo(doX, doY);
+
+            // Desenhando uma linha até a coordenada de término
+            ctx.lineTo(paraX, paraY);
+
+            // Desenhando a linha no canvas
+            ctx.stroke();
+
+            // Restaurando o contexto para seu estado anterior
+            ctx.restore();
+
+        }
+    }
+
     // Define um método estático para desenhar texto em um gráfico, 
     // com base nas opções fornecidas e na função de renderização especificada.
     static desenharTexto(opcoes, render) {
@@ -124,6 +302,7 @@ class Tacometro {
     // Método estático para desenhar o arco colorido no Tacômetro
     static desenharArcoCores(opcoes, render) {
 
+        // Desestruturando as opções para obter os valores necessários
         const { ctx, x, y, radius, } = opcoes;
 
         // Converte ângulos para radianos para os limites de cores
@@ -167,12 +346,22 @@ class Tacometro {
             arcY: 15
         };
 
+        // Chamando o método para desenhar o arco metálico externo do tacômetro, 
+        // passando as opções como parâmetro
+        Tacometro.desenharArcoMetalicoExterno(opcoes);
+
+        // Chamando o método para desenhar as marcas no mostrador do tacômetro, 
+        // passando as opções como parâmetro
+        Tacometro.desenharMarcas(opcoes);
+
+        // Chama o método para desenhar o texto no tacômetro, 
+        // recebendo as opções e a função de renderização como parâmetros
         Tacometro.desenharTexto(opcoes, render);
 
         // Chama o método estático para desenhar o arco colorido
         Tacometro.desenharArcoCores(opcoes, render);
 
-
+        Tacometro.desenharMostradorAgulha(opcoes, render);
 
         // Chama o método para desenhar a agulha do Tacômetro
         this.desenharAgulha(opcoes);
