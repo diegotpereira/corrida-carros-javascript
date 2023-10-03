@@ -25,6 +25,9 @@ class Diretor {
         this.iniciarTempo = 5000;
         this.tempoTotal = 0;
         this.voltaRapida = 0;
+
+        this.posicao = '';
+        this.posicoes = [];
     }
 
     // Método para configurar elementos ao criar o objeto
@@ -83,8 +86,63 @@ class Diretor {
         segmentoLinhaDez.sprites.push(linhaLargadaDireita);
     }
 
+    atualizarPosicoes(jogador, oponentes) {
+
+        let arr = [];
+
+        const {
+
+            nome,
+            posicaoPista,
+            x
+        } =  jogador;
+
+        arr.push({
+
+            nome,
+            pos: posicaoPista,
+            x: Number(x.toFixed(3))
+        })
+
+        oponentes.forEach((opp) => {
+            const { oponenteNome, sprite } = opp;
+            arr.push({
+                nome: oponenteNome,
+                pos: opp.posicaoPista,
+                x: Number((sprite.deslocamentoX * 2).toFixed(3))
+            });
+        });
+
+        arr.sort((a, b) => b.pos - a.pos);
+        arr = arr.map((item, index) => ({ ...item, posicao: index + 1 }));
+        this.posicoes = arr;
+
+        if (Array.isArray(oponentes)) {
+            
+        } else {
+            // Lidar com o caso em que 'oponentes' não é uma matriz
+            console.error("oponentes não é uma matriz.");
+        }
+
+        // let arr = [];
+
+        // // console.log("atualizar as posições");
+
+        // oponentes.forEach((opp) => {
+
+        //     const { oponenteNome, sprite } = opp;
+
+        //     arr.push({
+
+        //         nome: oponenteNome,
+        //         pos: opp.posicaoPista,
+
+        //     })
+        // });
+    }
+
     // Método para atualizar elementos no loop do jogo
-    update(jogador) {
+    update(jogador, oponente) {
 
         // Atualiza o valor da propriedade "pausado" com base na entrada do jogador
         this.pausado = handleInput.mapPress.p;
@@ -107,6 +165,8 @@ class Diretor {
         // encontra o menor valor presente na matriz "tempoVoltas". 
         // Caso contrário, define como 0.
         this.voltaRapida = this.tempoVoltas.length ? Math.min.apply(null, this.tempoVoltas) : 0;
+
+        this.atualizarPosicoes(jogador, oponente);
 
         // Define a posição da folha de sprite das luzes de largada com base no tempo da animação
         if(this.animaTempo > this.iniciarTempo) this.luzesLargada.posicaoFolhaX = 0;

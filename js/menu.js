@@ -1,4 +1,6 @@
-import { handleInput, pistas, posicaoInicial } from "./util.js";
+import { handleInput, pistas, posicaoInicial, pilotos } from "./util.js";
+import Oponente from "./oponente.js";
+
 
 class Menu {
 
@@ -56,7 +58,7 @@ class Menu {
     }
 
     // Inicia a corrida com as opções selecionadas
-    iniciarCorrida(jogador, estrada, diretor) {
+    iniciarCorrida(jogador, estrada, oponentes, diretor) {
 
         // Obtém a referência para o objeto de estrada
         const estradaParam = estrada;
@@ -64,8 +66,20 @@ class Menu {
         // Constante para evitar erro de sintaxe
         const zero = 0;
 
+        pilotos.forEach((piloto) => oponentes.push(new Oponente(
+
+            posicaoInicial(pistas[this.selecionarOpcao[zero]].tamanhoPista, piloto.posicao),
+            // piloto.ladoPista, 
+            'oponentes', 
+            piloto.nome
+        )));
+
+        oponentes.forEach((oponenteNumero) => oponenteNumero.create());
+
+        oponentes.splice(this.selecionarOpcao[1], oponentes.length);
+
         // Calcula a posição inicial na pista com base nas opções selecionadas
-        posicaoInicial(pistas[this.selecionarOpcao[zero]].tamanhoPista);
+        
 
         // Define o nome da pista com base na opção selecionada
         estradaParam.pistaNome = this.selecionarOpcao[0];
@@ -74,13 +88,14 @@ class Menu {
         estradaParam.create();
 
         jogador.create(this, pistas[this.selecionarOpcao[zero]].tamanhoPista);
+        
         // Cria o diretor da corrida com a pista selecionada
         diretor.create(estrada, this.selecionarOpcao[0]);
     
     }
 
     // Atualiza o menu com base nas entradas do jogador
-    update(jogador, estrada, diretor) {
+    update(jogador, estrada, oponentes, diretor) {
 
         // Verifica se a tecla Enter foi pressionada e o menu não está exibido
         if (handleInput.mapPress.enter && !this.exibirMenu) {
@@ -122,7 +137,7 @@ class Menu {
                 // botaoPausar.classList.toggle('hidden');
 
                 // Inicia a corrida com as opções selecionadas
-                this.iniciarCorrida(jogador, estrada, diretor);
+                this.iniciarCorrida(jogador, estrada, oponentes, diretor);
 
                  // Define o estado do menu como "corrida"
                 this.estado = 'corrida';

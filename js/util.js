@@ -141,6 +141,20 @@ const velocidadeEmGraus = (velocidade, maxVelocidade, anguloInicial, anguloFinal
 // Função para converter graus em radianos
 const grausEmRadiano = (angulo) => ((angulo * Math.PI) / 180);
 
+const pilotos = [
+
+    { posicao: 1, ladoPista: -1, nome: 'Diego Pereira'}
+];
+
+const atualizarDeslocamentoCarroOponente = (carro, jogador, diretor, opoArr) => {
+
+    const carroParam = carro;
+
+    const jogadorParam = jogador;
+
+    const opoArrParam = opoArr;
+}
+
 // Exporta as variáveis e a função para serem utilizadas em outros módulos
 export {
 
@@ -149,8 +163,10 @@ export {
     canvas,
     theta,
     posicaoInicial,
+    atualizarDeslocamentoCarroOponente,
     pistas,
     formatarHora,
     velocidadeEmGraus,
-    grausEmRadiano
+    grausEmRadiano,
+    pilotos  
 }

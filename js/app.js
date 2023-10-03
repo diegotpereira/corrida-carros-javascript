@@ -97,6 +97,7 @@ const loop = (
   render, 
   camera, 
   jogador, 
+  opoArr,
   estrada, 
   telaFundo, 
   diretor, 
@@ -136,10 +137,12 @@ const loop = (
 
     jogadorParam.update(cameraParam, estrada, diretorParam);
 
+    opoArr.forEach((oponente) => oponente.update(estrada, diretorParam, jogadorParam, opoArr));
+
     // Atualiza a posição dos elementos em cena
     telaFundo.update(jogadorParam, cameraParam, estrada, diretorParam);
 
-    diretorParam.update(jogadorParam);
+    diretorParam.update(jogadorParam, opoArr);
 
     tacometro.update(jogadorParam, diretorParam);
 
@@ -175,7 +178,7 @@ const loop = (
     if (diretorParam.tempoDesdeAUltimaTrocaFrame > menu.atualizarTempo) {
 
       // Atualiza o menu com base nas entradas do jogador
-      menu.update(jogadorParam, estrada, diretorParam); 
+      menu.update(jogadorParam, estrada, opoArr, diretorParam); 
       diretorParam.tempoDesdeAUltimaTrocaFrame = 0;
       
     }
@@ -203,6 +206,7 @@ const loop = (
     render, 
     cameraParam, 
     jogadorParam, 
+    opoArr,
     estrada, 
     telaFundo, 
     diretorParam, 
@@ -218,18 +222,27 @@ const init = () => {
 
   // Obtém a largura e altura da tela do jogo
   const { width, height } = canvas;
+
+  const oponentes = [];
+
   // Cria uma nova instância da classe Render para renderizar na tela
   const render = new Render(canvas.getContext('2d'));
+
   // Cria uma nova instância da classe Camera para controlar a câmera do jogo
   const camera = new Camera()
+
   // Cria uma nova instância da classe Diretor para controlar a corrida
   const diretor = new Diretor();
+
   // Cria uma nova instância da classe Jogador para representar o jogador
   const jogador = new Jogador();
+
   // Cria uma nova instância da classe Estrada para representar a estrada do jogo
   const estrada = new Estrada();
+
   // Cria uma nova instância da classe TelaFundo para representar o cenário do jogo
   const telaFundo = new TelaFundo();
+
   // Cria uma nova instância da classe Menu para representar o menu do jogo
   const menu = new Menu(width, height);
 
@@ -239,7 +252,7 @@ const init = () => {
   telaFundo.create();
   
   // Inicia o loop principal do jogo
-  loop(render, camera, jogador, estrada, telaFundo, diretor, menu, tacometro, width, height);
+  loop(render, camera, jogador, oponentes, estrada, telaFundo, diretor, menu, tacometro, width, height);
 };
 
 // Carrega as imagens necessárias para o jogo usando o recurso e inicia o jogo após o carregamento
@@ -256,4 +269,5 @@ recurso
   .add('playerRight', './img/jogador/playerRight.png')
   .add('luzesLargada', './img/outro/startLights.png')
   .add('barraLinhaLateral', './img/outro/startLightsBar.png')
+  .add('oponentes', './img/outro/opponents.png')
   .carregarImagem(() => requestAnimationFrame(() => init()));
